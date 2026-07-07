@@ -353,30 +353,31 @@
     </section>
 
     <!-- ===================== TERRAIN ===================== -->
+    <!-- La section se masque automatiquement si aucune photo n'est disponible (géré par JS initTerrain) -->
     <section class="section section--alt" id="terrain" aria-labelledby="terrain-title">
       <div class="container section__inner">
         <p class="eyebrow reveal">Sur le terrain</p>
         <h2 id="terrain-title" class="section__title reveal">31 semaines à l'ONF</h2>
         <p class="terrain__lead reveal">Cartographies réglementaires, enquête RCCI, intervention sur feu réel à Chizé — le terrain est la source de tout ce que je conçois.</p>
 
-        <div class="terrain__grid reveal">
+        <div class="terrain__grid reveal" id="terrain-grid">
           <figure class="terrain-photo terrain-photo--large">
-            <img src="/carte-visite/assets/img/terrain-1.jpg" alt="Relevé forestier en forêt de Chizé" loading="lazy" onerror="this.closest('figure').querySelector('.terrain-photo__placeholder').style.display='flex';this.style.display='none'">
+            <img src="/carte-visite/assets/img/terrain-1.jpg" alt="Relevé forestier en forêt de Chizé" loading="lazy" data-terrain-img>
             <div class="terrain-photo__placeholder" data-label="Relevé forestier" style="display:none"></div>
             <figcaption>Relevés de terrain — forêt de Chizé</figcaption>
           </figure>
           <figure class="terrain-photo">
-            <img src="/carte-visite/assets/img/terrain-2.jpg" alt="Cartographie réglementaire DFCI" loading="lazy" onerror="this.closest('figure').querySelector('.terrain-photo__placeholder').style.display='flex';this.style.display='none'">
+            <img src="/carte-visite/assets/img/terrain-2.jpg" alt="Cartographie réglementaire DFCI" loading="lazy" data-terrain-img>
             <div class="terrain-photo__placeholder" data-label="DFCI" style="display:none"></div>
             <figcaption>Cartographie DFCI réglementaire</figcaption>
           </figure>
           <figure class="terrain-photo">
-            <img src="/carte-visite/assets/img/terrain-3.jpg" alt="Inventaire forestier ONF" loading="lazy" onerror="this.closest('figure').querySelector('.terrain-photo__placeholder').style.display='flex';this.style.display='none'">
+            <img src="/carte-visite/assets/img/terrain-3.jpg" alt="Inventaire forestier ONF" loading="lazy" data-terrain-img>
             <div class="terrain-photo__placeholder" data-label="Inventaire ONF" style="display:none"></div>
             <figcaption>Inventaire forestier — ONF</figcaption>
           </figure>
           <figure class="terrain-photo">
-            <img src="/carte-visite/assets/img/terrain-4.jpg" alt="Forêt de Chizé — Réserve Biologique Intégrale" loading="lazy" onerror="this.closest('figure').querySelector('.terrain-photo__placeholder').style.display='flex';this.style.display='none'">
+            <img src="/carte-visite/assets/img/terrain-4.jpg" alt="Forêt de Chizé — Réserve Biologique Intégrale" loading="lazy" data-terrain-img>
             <div class="terrain-photo__placeholder" data-label="Réserve Biologique" style="display:none"></div>
             <figcaption>Réserve Biologique Intégrale (79/17)</figcaption>
           </figure>

@@ -401,8 +401,8 @@
             new window.QRCode(canvasHost, {
               text: config.url || window.location.href,
               width: 160, height: 160,
-              colorDark: '#050709',
-              colorLight: '#00FFB4'
+              colorDark: '#0A0E0B',
+              colorLight: '#5DB87A'
             });
             generated = true;
           }).catch(function () {
@@ -558,7 +558,44 @@
     });
   }
 
-  /* ============ 19. Ligne de scan animée (section GSIE) ============ */
+  /* ============ 19. Section Terrain — masquage auto si aucune photo ============ */
+  function initTerrain() {
+    var section = document.getElementById('terrain');
+    var imgs = section ? section.querySelectorAll('[data-terrain-img]') : [];
+    if (!imgs.length) return;
+
+    var failed = 0;
+    var total = imgs.length;
+
+    function onError() {
+      /* Affiche le placeholder de la figure */
+      var fig = this.closest('figure');
+      if (fig) {
+        var ph = fig.querySelector('.terrain-photo__placeholder');
+        if (ph) ph.style.display = 'flex';
+        this.style.display = 'none';
+      }
+      failed++;
+      /* Toutes les photos ont échoué : masquer la section entière */
+      if (failed === total) {
+        section.hidden = true;
+        /* Retirer aussi le lien "Terrain" de la nav */
+        document.querySelectorAll('a[href="#terrain"]').forEach(function (a) {
+          var li = a.closest('li');
+          if (li) li.style.display = 'none';
+          else a.style.display = 'none';
+        });
+      }
+    }
+
+    imgs.forEach(function (img) {
+      img.addEventListener('error', onError);
+      /* Si l'image est déjà en erreur (cached) */
+      if (img.complete && img.naturalWidth === 0) onError.call(img);
+    });
+  }
+
+  /* ============ 20. Ligne de scan animée (section GSIE) ============ */
   function initScanLine() {
     var illus = document.querySelector('.gsie__illustration');
     if (!illus) return;
@@ -568,8 +605,8 @@
     var line = document.createElement('div');
     line.style.cssText = [
       'position:absolute', 'left:0', 'right:0', 'height:1.5px',
-      'background:linear-gradient(90deg,transparent,rgba(0,255,180,0.8),transparent)',
-      'box-shadow:0 0 8px rgba(0,255,180,0.6)',
+      'background:linear-gradient(90deg,transparent,rgba(93,184,122,0.7),transparent)',
+      'box-shadow:0 0 8px rgba(93,184,122,0.4)',
       'pointer-events:none', 'top:0',
       'animation:scan-line 3s linear infinite'
     ].join(';');
@@ -611,6 +648,7 @@
     initQrCode();
     initGithubRepos();
     initCardTilt();
+    initTerrain();
     initScanLine();
     initServiceWorker();
   });
