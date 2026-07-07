@@ -427,24 +427,19 @@ h1, h2, h3, h4 {
   object-fit: cover;
   object-position: center;
   z-index: 0;
-  /* brightness seul — plus léger que saturate+brightness combinés */
-  filter: brightness(0.65);
-  will-change: auto; /* pas d'animation sur la vidéo elle-même */
 }
 
-/* Overlay sombre — pas de backdrop-filter (coûteux plein écran) */
+/* Overlay : léger dégradé uniquement en bas pour lisibilité du texte */
 .hero__glass {
   position: absolute;
   inset: 0;
   z-index: 1;
-  background:
-    linear-gradient(
-      to bottom,
-      rgba(10, 14, 11, 0.35) 0%,
-      rgba(10, 14, 11, 0.20) 40%,
-      rgba(10, 14, 11, 0.60) 100%
-    );
-  /* backdrop-filter supprimé — inutile avec brightness sur la vidéo */
+  background: linear-gradient(
+    to bottom,
+    transparent 0%,
+    transparent 50%,
+    rgba(10, 14, 11, 0.55) 100%
+  );
 }
 
 /* Canvas, aurora, backdrop — supprimés du HTML ; sécurité si présents */
