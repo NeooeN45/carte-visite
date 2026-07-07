@@ -338,14 +338,15 @@
         box.removeAttribute('hidden');
         btn.setAttribute('aria-expanded', 'true');
         if (!generated) {
-          canvasHost.textContent = 'Génération du QR code…';
+          canvasHost.textContent = 'Génération…';
           loadQrLibrary().then(function () {
             canvasHost.textContent = '';
+            /* QR vert forêt sur fond blanc — lisible et dans la palette */
             new window.QRCode(canvasHost, {
               text: config.url || window.location.href,
-              width: 160, height: 160,
-              colorDark: '#0A0E0B',
-              colorLight: '#5DB87A'
+              width: 200, height: 200,
+              colorDark: '#1a4a28',
+              colorLight: '#ffffff'
             });
             generated = true;
           }).catch(function () {

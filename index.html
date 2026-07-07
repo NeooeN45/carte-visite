@@ -604,11 +604,16 @@
 
             <button type="button" class="button button--ghost" id="qr-btn" aria-expanded="false" aria-controls="qr-box">
               <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><path d="M14 14h3v3h-3zM20 14v3M14 20h3M20 20v.01"/></svg>
-              Afficher le QR code
+              QR code
             </button>
-            <div class="qr-box" id="qr-box" hidden>
-              <div id="qr-canvas"></div>
-              <p>Scannez pour ouvrir cette carte sur un autre appareil.</p>
+
+            <!-- QR code — modal centré -->
+            <div class="qr-modal" id="qr-box" hidden aria-live="polite">
+              <div class="qr-modal__inner">
+                <p class="qr-modal__label">Scannez pour ouvrir sur un autre appareil</p>
+                <div id="qr-canvas" class="qr-modal__canvas"></div>
+                <p class="qr-modal__url">neooen45.github.io/carte-visite</p>
+              </div>
             </div>
 
             <div class="contact__map">
@@ -616,9 +621,9 @@
                 title="Localisation — Ligugé, Vienne (86)"
                 loading="lazy"
                 referrerpolicy="no-referrer-when-downgrade"
-                src="https://www.openstreetmap.org/export/embed.html?bbox=0.25%2C46.47%2C0.55%2C46.62&amp;layer=mapnik&amp;marker=46.534%2C0.338">
+                src="https://www.openstreetmap.org/export/embed.html?bbox=0.29%2C46.55%2C0.39%2C46.61&amp;layer=mapnik&amp;marker=46.5802%2C0.3404">
               </iframe>
-              <p class="contact__map-caption">Basé à Ligugé, Vienne (86) — déplacements possibles sur toute la Nouvelle-Aquitaine.</p>
+              <p class="contact__map-caption">Basé à Poitiers, Vienne (86) — déplacements possibles sur toute la Nouvelle-Aquitaine.</p>
             </div>
           </div>
         </div>
