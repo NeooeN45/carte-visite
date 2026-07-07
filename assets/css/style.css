@@ -130,6 +130,8 @@ html {
 body {
   min-height: 100svh;
   background: var(--ink);
+  /* Forcer un fond sombre derrière la hero vidéo, même en thème clair */
+  background-color: #0A0E0B;
   color: var(--mist);
   font-family: var(--font-body);
   font-size: var(--fs-base);
@@ -203,15 +205,7 @@ h1, h2, h3, h4 {
   background: var(--ink-raised);
   position: relative;
 }
-.section--alt::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background:
-    radial-gradient(ellipse 80% 40% at 100% 0%, rgba(189, 95, 255, 0.04) 0%, transparent 70%),
-    radial-gradient(ellipse 60% 40% at 0% 100%, rgba(0, 255, 180, 0.03) 0%, transparent 70%);
-  pointer-events: none;
-}
+
 
 .section__inner {}
 .section__title {
@@ -418,6 +412,7 @@ h1, h2, h3, h4 {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  background: #0A0E0B; /* fond noir fixe — évite tout voile blanc/coloré derrière la vidéo */
 }
 
 /* Vidéo de fond plein écran */
