@@ -259,16 +259,18 @@ h1, h2, h3, h4 {
   position: sticky;
   top: 0;
   z-index: 100;
-  background: color-mix(in srgb, var(--ink) 70%, transparent);
-  backdrop-filter: blur(20px) saturate(160%);
-  -webkit-backdrop-filter: blur(20px) saturate(160%);
-  border-bottom: 1px solid var(--line);
-  transition: border-color var(--t-base);
+  background: transparent;
+  border-bottom: 1px solid transparent;
+  transition: background var(--t-base), border-color var(--t-base), box-shadow var(--t-base);
 }
 
+/* Fond visible uniquement une fois qu'on a scrollé hors de la hero */
 .site-header.scrolled {
+  background: color-mix(in srgb, var(--ink) 80%, transparent);
+  backdrop-filter: blur(20px) saturate(160%);
+  -webkit-backdrop-filter: blur(20px) saturate(160%);
   border-bottom-color: var(--line-strong);
-  box-shadow: 0 1px 40px -10px rgba(0, 255, 180, 0.08);
+  box-shadow: 0 1px 24px -8px rgba(0,0,0,0.15);
 }
 
 .site-header__inner {
