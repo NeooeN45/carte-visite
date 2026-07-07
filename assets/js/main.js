@@ -16,10 +16,13 @@
     updateToggleLabel();
     toggle.addEventListener('click', function () {
       var isLight = root.getAttribute('data-theme') === 'light';
-      var next = isLight ? 'dark' : 'light';
-      if (next === 'dark') root.removeAttribute('data-theme');
-      else root.setAttribute('data-theme', 'light');
-      try { localStorage.setItem('theme', next); } catch (e) {}
+      if (isLight) {
+        root.removeAttribute('data-theme');          /* → sombre */
+        try { localStorage.setItem('theme', 'dark'); } catch (e) {}
+      } else {
+        root.setAttribute('data-theme', 'light');    /* → clair */
+        try { localStorage.setItem('theme', 'light'); } catch (e) {}
+      }
       updateToggleLabel();
     });
     function updateToggleLabel() {
