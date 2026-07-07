@@ -188,6 +188,7 @@ h1, h2, h3, h4 {
 }
 
 /* -------------------- 3. Curseur custom -------------------- */
+/* top/left à 0 — position réelle via transform en JS (GPU, zéro reflow) */
 .cursor {
   position: fixed;
   top: 0; left: 0;
@@ -196,10 +197,10 @@ h1, h2, h3, h4 {
   border-radius: 50%;
   pointer-events: none;
   z-index: 9999;
-  transform: translate(-50%, -50%);
-  transition: width 200ms var(--ease), height 200ms var(--ease), background 200ms var(--ease), opacity 200ms;
+  will-change: transform;
+  transition: opacity 200ms;
   mix-blend-mode: screen;
-  box-shadow: 0 0 12px 4px var(--canopy-glow);
+  box-shadow: 0 0 8px 3px var(--canopy-glow);
 }
 
 .cursor-ring {
@@ -210,8 +211,8 @@ h1, h2, h3, h4 {
   border-radius: 50%;
   pointer-events: none;
   z-index: 9998;
-  transform: translate(-50%, -50%);
-  transition: width 350ms var(--ease), height 350ms var(--ease), border-color 200ms, opacity 200ms, transform 80ms linear;
+  will-change: transform;
+  transition: opacity 200ms, border-color 200ms;
   opacity: 0.6;
 }
 
@@ -475,11 +476,12 @@ body:has(button:hover) .cursor-ring {
   object-fit: cover;
   object-position: center;
   z-index: 0;
-  /* légère désaturation pour garder un rendu sobre */
-  filter: saturate(0.75) brightness(0.7);
+  /* brightness seul — plus léger que saturate+brightness combinés */
+  filter: brightness(0.65);
+  will-change: auto; /* pas d'animation sur la vidéo elle-même */
 }
 
-/* Overlay glassmorphism + flou — pose sur la vidéo */
+/* Overlay sombre — pas de backdrop-filter (coûteux plein écran) */
 .hero__glass {
   position: absolute;
   inset: 0;
@@ -487,12 +489,11 @@ body:has(button:hover) .cursor-ring {
   background:
     linear-gradient(
       to bottom,
-      rgba(10, 14, 11, 0.30) 0%,
+      rgba(10, 14, 11, 0.35) 0%,
       rgba(10, 14, 11, 0.20) 40%,
-      rgba(10, 14, 11, 0.55) 100%
+      rgba(10, 14, 11, 0.60) 100%
     );
-  -webkit-backdrop-filter: blur(2px);
-          backdrop-filter: blur(2px);
+  /* backdrop-filter supprimé — inutile avec brightness sur la vidéo */
 }
 
 /* Canvas, aurora, backdrop — supprimés du HTML ; sécurité si présents */
@@ -542,15 +543,19 @@ body:has(button:hover) .cursor-ring {
 .hero__photo[data-fallback="true"] img { display: none; }
 .hero__photo[data-fallback="true"] .hero__photo-fallback { display: flex; }
 
-/* Anneau animé autour de la photo */
+/* Anneau animé autour de la photo — taille fixe + scale GPU (zéro reflow) */
 .hero__photo-wrap::before,
 .hero__photo-wrap::after {
   content: '';
   position: absolute;
   top: 50%; left: 50%;
+  width: 148px; height: 148px;
   border-radius: 50%;
   border: 1px solid var(--canopy);
-  transform: translate(-50%, -50%);
+  /* translate centré puis scale via keyframe */
+  transform: translate(-50%, -50%) scale(1);
+  transform-origin: center center;
+  will-change: transform, opacity;
   animation: ring-expand 3s ease-out infinite;
   opacity: 0;
   pointer-events: none;
@@ -565,12 +570,12 @@ body:has(button:hover) .cursor-ring {
 .hero__title {
   font-size: var(--fs-3xl);
   margin-bottom: var(--space-4);
-  /* Dégradé naturel : blanc → vert forêt */
   background: linear-gradient(135deg, #FFFFFF 0%, #A8D5B0 55%, var(--canopy) 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  filter: drop-shadow(0 2px 12px rgba(0,0,0,0.6));
+  /* drop-shadow supprimé — coûteux sur texte avec background-clip */
+  text-shadow: none;
 }
 
 .hero__slogan {
@@ -1201,8 +1206,9 @@ body:has(button:hover) .cursor-ring {
 /* Révélations au scroll */
 .reveal {
   opacity: 0;
-  transform: translateY(28px);
-  transition: opacity 0.7s var(--ease), transform 0.7s var(--ease);
+  transform: translateY(24px);
+  transition: opacity 0.6s var(--ease), transform 0.6s var(--ease);
+  will-change: opacity, transform;
 }
 .reveal.is-visible { opacity: 1; transform: translateY(0); }
 
@@ -1214,8 +1220,9 @@ body:has(button:hover) .cursor-ring {
 .reveal:nth-child(6) { transition-delay: 0.5s; }
 
 @keyframes ring-expand {
-  0%   { width: 148px; height: 148px; opacity: 0.4; }
-  100% { width: 260px; height: 260px; opacity: 0; }
+  /* scale GPU uniquement — width/height ne bougent plus jamais */
+  0%   { transform: translate(-50%, -50%) scale(1);    opacity: 0.4; }
+  100% { transform: translate(-50%, -50%) scale(1.76); opacity: 0; }
 }
 
 @keyframes pulse-brand {

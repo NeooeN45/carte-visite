@@ -112,10 +112,14 @@
     }
     var observer = new IntersectionObserver(function (entries, obs) {
       entries.forEach(function (entry) {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('is-visible');
-          obs.unobserve(entry.target);
-        }
+        if (!entry.isIntersecting) return;
+        var el = entry.target;
+        el.classList.add('is-visible');
+        obs.unobserve(el);
+        /* Libère le layer GPU will-change une fois l'animation terminée */
+        el.addEventListener('transitionend', function () {
+          el.style.willChange = 'auto';
+        }, { once: true });
       });
     }, { threshold: 0.1, rootMargin: '0px 0px -8% 0px' });
     items.forEach(function (el) { observer.observe(el); });
@@ -138,13 +142,12 @@
 
     var mouseX = -100, mouseY = -100;
     var ringX = -100, ringY = -100;
-    var rafId;
 
+    /* transform uniquement — aucun reflow, compositing GPU */
     document.addEventListener('mousemove', function (e) {
       mouseX = e.clientX;
       mouseY = e.clientY;
-      cursor.style.left = mouseX + 'px';
-      cursor.style.top  = mouseY + 'px';
+      cursor.style.transform = 'translate(' + mouseX + 'px,' + mouseY + 'px) translate(-50%,-50%)';
     }, { passive: true });
 
     document.addEventListener('mouseleave', function () {
@@ -156,22 +159,23 @@
       ring.style.opacity = '0.6';
     });
 
-    /* Ring suit avec inertie */
+    /* Ring suit avec inertie — transform uniquement */
     function animateRing() {
       ringX += (mouseX - ringX) * 0.12;
       ringY += (mouseY - ringY) * 0.12;
-      ring.style.left = ringX + 'px';
-      ring.style.top  = ringY + 'px';
-      rafId = requestAnimationFrame(animateRing);
+      ring.style.transform = 'translate(' + ringX + 'px,' + ringY + 'px) translate(-50%,-50%)';
+      requestAnimationFrame(animateRing);
     }
     animateRing();
 
-    /* Effet clic */
+    /* Effet clic — scale seul, centrage déjà dans le transform ci-dessus */
     document.addEventListener('mousedown', function () {
-      cursor.style.transform = 'translate(-50%, -50%) scale(0.7)';
+      cursor.dataset.click = '1';
+      cursor.style.transform = 'translate(' + mouseX + 'px,' + mouseY + 'px) translate(-50%,-50%) scale(0.7)';
     });
     document.addEventListener('mouseup', function () {
-      cursor.style.transform = 'translate(-50%, -50%) scale(1)';
+      cursor.dataset.click = '';
+      cursor.style.transform = 'translate(' + mouseX + 'px,' + mouseY + 'px) translate(-50%,-50%) scale(1)';
     });
   }
 
