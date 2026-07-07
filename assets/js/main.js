@@ -1,8 +1,7 @@
 /**
  * Camille Perraudeau — Carte de visite numérique
- * Script principal. Aucune dépendance obligatoire :
- * la génération de QR code charge une petite bibliothèque à la demande
- * uniquement (voir generateQrCode), le reste est du JavaScript natif.
+ * Script principal — édition Premium Néon/Cyber
+ * Aucune dépendance obligatoire (QR code chargé à la demande).
  */
 (function () {
   'use strict';
@@ -14,25 +13,15 @@
   function initTheme() {
     var toggle = document.getElementById('theme-toggle');
     if (!toggle) return;
-
     updateToggleLabel();
-
     toggle.addEventListener('click', function () {
       var isLight = root.getAttribute('data-theme') === 'light';
       var next = isLight ? 'dark' : 'light';
-
-      if (next === 'dark') {
-        root.removeAttribute('data-theme');
-      } else {
-        root.setAttribute('data-theme', 'light');
-      }
-
-      try { localStorage.setItem('theme', next); }
-      catch (e) { /* stockage indisponible : le choix ne sera pas mémorisé */ }
-
+      if (next === 'dark') root.removeAttribute('data-theme');
+      else root.setAttribute('data-theme', 'light');
+      try { localStorage.setItem('theme', next); } catch (e) {}
       updateToggleLabel();
     });
-
     function updateToggleLabel() {
       var isLight = root.getAttribute('data-theme') === 'light';
       toggle.setAttribute('aria-pressed', String(isLight));
@@ -45,7 +34,6 @@
     var toggle = document.getElementById('nav-toggle');
     var panel = document.getElementById('mobile-nav');
     if (!toggle || !panel) return;
-
     function close() {
       panel.dataset.open = 'false';
       toggle.setAttribute('aria-expanded', 'false');
@@ -56,27 +44,18 @@
       toggle.setAttribute('aria-expanded', 'true');
       toggle.setAttribute('aria-label', 'Fermer le menu');
     }
-
     toggle.addEventListener('click', function () {
       panel.dataset.open === 'true' ? close() : open();
     });
-
-    panel.querySelectorAll('a').forEach(function (link) {
-      link.addEventListener('click', close);
-    });
-
+    panel.querySelectorAll('a').forEach(function (link) { link.addEventListener('click', close); });
     document.addEventListener('keydown', function (e) {
-      if (e.key === 'Escape' && panel.dataset.open === 'true') {
-        close();
-        toggle.focus();
-      }
+      if (e.key === 'Escape' && panel.dataset.open === 'true') { close(); toggle.focus(); }
     });
   }
 
   /* ============ 3. Défilement doux + lien actif ============ */
   function initSmoothScroll() {
     var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
     document.querySelectorAll('a[href^="#"]').forEach(function (link) {
       link.addEventListener('click', function (e) {
         var id = link.getAttribute('href');
@@ -94,12 +73,8 @@
     var sections = document.querySelectorAll('main section[id]');
     var links = document.querySelectorAll('.nav__link');
     if (!sections.length || !links.length) return;
-
     var map = {};
-    links.forEach(function (link) {
-      map[link.getAttribute('href').slice(1)] = link;
-    });
-
+    links.forEach(function (link) { map[link.getAttribute('href').slice(1)] = link; });
     var observer = new IntersectionObserver(function (entries) {
       entries.forEach(function (entry) {
         var link = map[entry.target.id];
@@ -110,20 +85,29 @@
         }
       });
     }, { rootMargin: '-45% 0px -50% 0px' });
-
     sections.forEach(function (s) { observer.observe(s); });
   }
 
-  /* ============ 4. Révélations au défilement ============ */
+  /* ============ 4. Header — effet scroll ============ */
+  function initHeader() {
+    var header = document.getElementById('site-header');
+    if (!header) return;
+    var onScroll = function () {
+      if (window.scrollY > 20) header.classList.add('scrolled');
+      else header.classList.remove('scrolled');
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+  }
+
+  /* ============ 5. Révélations au scroll ============ */
   function initReveal() {
     var items = document.querySelectorAll('.reveal');
     if (!items.length) return;
-
     if (!('IntersectionObserver' in window)) {
       items.forEach(function (el) { el.classList.add('is-visible'); });
       return;
     }
-
     var observer = new IntersectionObserver(function (entries, obs) {
       entries.forEach(function (entry) {
         if (entry.isIntersecting) {
@@ -131,23 +115,318 @@
           obs.unobserve(entry.target);
         }
       });
-    }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
-
+    }, { threshold: 0.1, rootMargin: '0px 0px -8% 0px' });
     items.forEach(function (el) { observer.observe(el); });
   }
 
-  /* ============ 5. Année dynamique ============ */
+  /* ============ 6. Canvas particules interactives ============ */
+  function initParticles() {
+    var canvas = document.getElementById('hero-canvas');
+    if (!canvas) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) { canvas.style.display = 'none'; return; }
+
+    var ctx = canvas.getContext('2d');
+    var particles = [];
+    var mouse = { x: -9999, y: -9999, active: false };
+    var animId;
+    var PARTICLE_COUNT = window.innerWidth < 768 ? 60 : 120;
+    var CONNECTION_DIST = 130;
+    var MOUSE_REPEL_DIST = 100;
+
+    /* Couleurs néon */
+    var COLORS = ['rgba(0, 255, 180,', 'rgba(189, 95, 255,', 'rgba(255, 107, 53,'];
+
+    function resize() {
+      canvas.width  = canvas.offsetWidth;
+      canvas.height = canvas.offsetHeight;
+    }
+
+    function randomBetween(a, b) { return a + Math.random() * (b - a); }
+
+    function createParticle() {
+      var color = COLORS[Math.floor(Math.random() * COLORS.length)];
+      return {
+        x: randomBetween(0, canvas.width),
+        y: randomBetween(0, canvas.height),
+        vx: randomBetween(-0.3, 0.3),
+        vy: randomBetween(-0.3, 0.3),
+        r: randomBetween(1.5, 3.5),
+        color: color,
+        alpha: randomBetween(0.4, 0.9),
+        pulse: randomBetween(0, Math.PI * 2)
+      };
+    }
+
+    function init() {
+      particles = [];
+      for (var i = 0; i < PARTICLE_COUNT; i++) particles.push(createParticle());
+    }
+
+    function draw() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      /* Mise à jour */
+      particles.forEach(function (p) {
+        p.pulse += 0.02;
+
+        /* Répulsion souris */
+        if (mouse.active) {
+          var dx = p.x - mouse.x;
+          var dy = p.y - mouse.y;
+          var dist = Math.sqrt(dx * dx + dy * dy);
+          if (dist < MOUSE_REPEL_DIST && dist > 0) {
+            var force = (MOUSE_REPEL_DIST - dist) / MOUSE_REPEL_DIST * 0.8;
+            p.vx += (dx / dist) * force;
+            p.vy += (dy / dist) * force;
+          }
+        }
+
+        /* Friction */
+        p.vx *= 0.99;
+        p.vy *= 0.99;
+
+        /* Vitesse max */
+        var speed = Math.sqrt(p.vx * p.vx + p.vy * p.vy);
+        if (speed > 1.5) { p.vx = (p.vx / speed) * 1.5; p.vy = (p.vy / speed) * 1.5; }
+
+        p.x += p.vx;
+        p.y += p.vy;
+
+        /* Rebond bords */
+        if (p.x < 0) { p.x = 0; p.vx *= -1; }
+        if (p.x > canvas.width)  { p.x = canvas.width;  p.vx *= -1; }
+        if (p.y < 0) { p.y = 0; p.vy *= -1; }
+        if (p.y > canvas.height) { p.y = canvas.height; p.vy *= -1; }
+
+        /* Dessin particule */
+        var pulsedAlpha = p.alpha * (0.7 + 0.3 * Math.sin(p.pulse));
+        var pulsedR = p.r * (0.85 + 0.15 * Math.sin(p.pulse));
+
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, pulsedR, 0, Math.PI * 2);
+        ctx.fillStyle = p.color + pulsedAlpha + ')';
+        ctx.fill();
+
+        /* Halo glow */
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, pulsedR * 3, 0, Math.PI * 2);
+        ctx.fillStyle = p.color + (pulsedAlpha * 0.12) + ')';
+        ctx.fill();
+      });
+
+      /* Connexions */
+      for (var i = 0; i < particles.length; i++) {
+        for (var j = i + 1; j < particles.length; j++) {
+          var pi = particles[i];
+          var pj = particles[j];
+          var dx = pi.x - pj.x;
+          var dy = pi.y - pj.y;
+          var dist = Math.sqrt(dx * dx + dy * dy);
+          if (dist < CONNECTION_DIST) {
+            var lineAlpha = (1 - dist / CONNECTION_DIST) * 0.35;
+            ctx.beginPath();
+            ctx.moveTo(pi.x, pi.y);
+            ctx.lineTo(pj.x, pj.y);
+            ctx.strokeStyle = 'rgba(0, 255, 180, ' + lineAlpha + ')';
+            ctx.lineWidth = 0.6;
+            ctx.stroke();
+          }
+        }
+      }
+
+      animId = requestAnimationFrame(draw);
+    }
+
+    /* Événements souris */
+    var heroEl = canvas.closest('.hero') || document.body;
+    heroEl.addEventListener('mousemove', function (e) {
+      var rect = canvas.getBoundingClientRect();
+      mouse.x = e.clientX - rect.left;
+      mouse.y = e.clientY - rect.top;
+      mouse.active = true;
+    }, { passive: true });
+    heroEl.addEventListener('mouseleave', function () { mouse.active = false; });
+
+    /* Touch */
+    heroEl.addEventListener('touchmove', function (e) {
+      var rect = canvas.getBoundingClientRect();
+      mouse.x = e.touches[0].clientX - rect.left;
+      mouse.y = e.touches[0].clientY - rect.top;
+      mouse.active = true;
+    }, { passive: true });
+    heroEl.addEventListener('touchend', function () { mouse.active = false; });
+
+    window.addEventListener('resize', function () {
+      cancelAnimationFrame(animId);
+      resize();
+      init();
+      draw();
+    });
+
+    resize();
+    init();
+    draw();
+  }
+
+  /* ============ 7. Curseur custom ============ */
+  function initCursor() {
+    if (window.matchMedia('(hover: none)').matches) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    var cursor = document.createElement('div');
+    cursor.className = 'cursor';
+    var ring = document.createElement('div');
+    ring.className = 'cursor-ring';
+    document.body.appendChild(cursor);
+    document.body.appendChild(ring);
+
+    var mouseX = -100, mouseY = -100;
+    var ringX = -100, ringY = -100;
+    var rafId;
+
+    document.addEventListener('mousemove', function (e) {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+      cursor.style.left = mouseX + 'px';
+      cursor.style.top  = mouseY + 'px';
+    }, { passive: true });
+
+    document.addEventListener('mouseleave', function () {
+      cursor.style.opacity = '0';
+      ring.style.opacity = '0';
+    });
+    document.addEventListener('mouseenter', function () {
+      cursor.style.opacity = '1';
+      ring.style.opacity = '0.6';
+    });
+
+    /* Ring suit avec inertie */
+    function animateRing() {
+      ringX += (mouseX - ringX) * 0.12;
+      ringY += (mouseY - ringY) * 0.12;
+      ring.style.left = ringX + 'px';
+      ring.style.top  = ringY + 'px';
+      rafId = requestAnimationFrame(animateRing);
+    }
+    animateRing();
+
+    /* Effet clic */
+    document.addEventListener('mousedown', function () {
+      cursor.style.transform = 'translate(-50%, -50%) scale(0.7)';
+    });
+    document.addEventListener('mouseup', function () {
+      cursor.style.transform = 'translate(-50%, -50%) scale(1)';
+    });
+  }
+
+  /* ============ 8. Effet parallaxe hero ============ */
+  function initParallax() {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    var backdrop = document.querySelector('.hero__backdrop');
+    var aurora = document.querySelector('.hero__aurora');
+    if (!backdrop && !aurora) return;
+
+    window.addEventListener('scroll', function () {
+      var scrollY = window.scrollY;
+      var factor = 0.3;
+      if (backdrop) backdrop.style.transform = 'translateY(' + (scrollY * factor) + 'px)';
+      if (aurora)   aurora.style.transform   = 'translateY(' + (scrollY * factor * 0.6) + 'px)';
+    }, { passive: true });
+  }
+
+  /* ============ 9. Titre hero — effet typewriter ============ */
+  function initTypewriter() {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    var el = document.getElementById('hero-title');
+    if (!el) return;
+
+    var text = el.textContent.trim();
+    el.textContent = '';
+    el.style.opacity = '1';
+    var i = 0;
+    var delay = 80;
+    var startDelay = 600; /* après l'animation hero */
+
+    function type() {
+      if (i <= text.length) {
+        el.textContent = text.slice(0, i);
+        i++;
+        setTimeout(type, delay);
+      }
+    }
+    setTimeout(type, startDelay);
+  }
+
+  /* ============ 10. Compteurs animés (facts) ============ */
+  function initCounters() {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    var facts = document.querySelectorAll('.about__fact-value');
+    if (!facts.length) return;
+
+    var observer = new IntersectionObserver(function (entries, obs) {
+      entries.forEach(function (entry) {
+        if (!entry.isIntersecting) return;
+        obs.unobserve(entry.target);
+        var el = entry.target;
+        var rawText = el.textContent.trim();
+        var num = parseFloat(rawText.replace(/[^0-9.]/g, ''));
+        if (isNaN(num)) return;
+        var suffix = rawText.replace(/[0-9.]/g, '');
+        var start = 0;
+        var duration = 1200;
+        var startTime = null;
+        function step(ts) {
+          if (!startTime) startTime = ts;
+          var progress = Math.min((ts - startTime) / duration, 1);
+          var ease = 1 - Math.pow(1 - progress, 3);
+          var current = Math.round(start + (num - start) * ease);
+          el.textContent = current + suffix;
+          if (progress < 1) requestAnimationFrame(step);
+          else el.textContent = rawText;
+        }
+        requestAnimationFrame(step);
+      });
+    }, { threshold: 0.5 });
+
+    facts.forEach(function (el) { observer.observe(el); });
+  }
+
+  /* ============ 11. Glitch effect au hover du titre ============ */
+  function initGlitch() {
+    var title = document.getElementById('hero-title');
+    if (!title) return;
+
+    var glitchChars = '!<>-_\\/[]{}—=+*^?#________';
+
+    title.addEventListener('mouseenter', function () {
+      var orig = title.textContent;
+      var iterations = 0;
+      var interval = setInterval(function () {
+        title.textContent = orig.split('').map(function (char, idx) {
+          if (char === ' ') return ' ';
+          if (idx < iterations) return orig[idx];
+          return glitchChars[Math.floor(Math.random() * glitchChars.length)];
+        }).join('');
+        if (iterations >= orig.length) {
+          clearInterval(interval);
+          title.textContent = orig;
+        }
+        iterations += 1.5;
+      }, 40);
+    });
+  }
+
+  /* ============ 12. Année dynamique ============ */
   function initYear() {
     var el = document.getElementById('current-year');
     if (el) el.textContent = new Date().getFullYear();
   }
 
-  /* ============ 6. Génération et téléchargement de vCard ============ */
+  /* ============ 13. vCard ============ */
   function readConfig() {
     var el = document.getElementById('contact-config');
     if (!el) return {};
-    try { return JSON.parse(el.textContent); }
-    catch (e) { return {}; }
+    try { return JSON.parse(el.textContent); } catch (e) { return {}; }
   }
 
   function buildVCard(cfg) {
@@ -188,7 +467,7 @@
     });
   }
 
-  /* ============ 7. Toast de confirmation ============ */
+  /* ============ 14. Toast ============ */
   var toastEl = null;
   function showToast(message) {
     if (!toastEl) {
@@ -201,25 +480,21 @@
     toastEl.textContent = message;
     requestAnimationFrame(function () { toastEl.classList.add('is-visible'); });
     clearTimeout(toastEl._timer);
-    toastEl._timer = setTimeout(function () {
-      toastEl.classList.remove('is-visible');
-    }, 2600);
+    toastEl._timer = setTimeout(function () { toastEl.classList.remove('is-visible'); }, 2600);
   }
 
-  /* ============ 8. Partage ============ */
+  /* ============ 15. Partage ============ */
   function initShare() {
     var btn = document.getElementById('share-btn');
     if (!btn) return;
-
     btn.addEventListener('click', function () {
       var shareData = {
         title: config.name || document.title,
         text: config.title || '',
         url: config.url || window.location.href
       };
-
       if (navigator.share) {
-        navigator.share(shareData).catch(function () { /* annulé par l'utilisateur */ });
+        navigator.share(shareData).catch(function () {});
       } else if (navigator.clipboard) {
         navigator.clipboard.writeText(shareData.url).then(function () {
           showToast('Lien copié dans le presse-papiers');
@@ -230,16 +505,13 @@
     });
   }
 
-  /* ============ 9. QR code à la demande ============ */
+  /* ============ 16. QR code ============ */
   var qrLibPromise = null;
   function loadQrLibrary() {
     if (qrLibPromise) return qrLibPromise;
     qrLibPromise = new Promise(function (resolve, reject) {
       if (window.QRCode) return resolve();
       var script = document.createElement('script');
-      // Bibliothèque légère (~5 Ko), sans dépendance, chargée uniquement au clic.
-      // Pour un fonctionnement 100% hors-ligne, téléchargez ce fichier et
-      // placez-le dans /assets/js/vendor/qrcode.min.js, puis changez le src ci-dessous.
       script.src = 'https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js';
       script.async = true;
       script.onload = resolve;
@@ -254,30 +526,25 @@
     var box = document.getElementById('qr-box');
     var canvasHost = document.getElementById('qr-canvas');
     if (!btn || !box || !canvasHost) return;
-
     var generated = false;
-
     btn.addEventListener('click', function () {
       var willOpen = box.hasAttribute('hidden');
-
       if (willOpen) {
         box.removeAttribute('hidden');
         btn.setAttribute('aria-expanded', 'true');
-
         if (!generated) {
           canvasHost.textContent = 'Génération du QR code…';
           loadQrLibrary().then(function () {
             canvasHost.textContent = '';
             new window.QRCode(canvasHost, {
               text: config.url || window.location.href,
-              width: 160,
-              height: 160,
-              colorDark: '#0A0D0B',
-              colorLight: '#F4F6F4'
+              width: 160, height: 160,
+              colorDark: '#050709',
+              colorLight: '#00FFB4'
             });
             generated = true;
           }).catch(function () {
-            canvasHost.textContent = 'Impossible de charger le générateur de QR code pour le moment.';
+            canvasHost.textContent = 'Impossible de charger le générateur de QR code.';
           });
         }
       } else {
@@ -287,7 +554,7 @@
     });
   }
 
-  /* ============ 10. Dépôts GitHub récents ============ */
+  /* ============ 17. Dépôts GitHub ============ */
   function initGithubRepos() {
     var grid = document.getElementById('repos-grid');
     var status = document.getElementById('repos-status');
@@ -305,17 +572,17 @@
           return;
         }
         if (status) status.remove();
-        renderRepos(repos.slice(0, 6));
+        renderRepos(repos.filter(function (r) { return !r.fork; }).slice(0, 6));
       })
       .catch(function () {
-        if (status) status.textContent = 'Dépôts GitHub indisponibles pour le moment — voir le profil directement sur GitHub.';
+        if (status) status.textContent = 'Dépôts GitHub indisponibles — voir le profil directement sur GitHub.';
       });
 
     function renderRepos(repos) {
       var frag = document.createDocumentFragment();
       repos.forEach(function (repo) {
         var card = document.createElement('article');
-        card.className = 'repo-card';
+        card.className = 'repo-card reveal';
 
         var link = document.createElement('a');
         link.href = repo.html_url;
@@ -332,7 +599,7 @@
         meta.className = 'repo-card__meta';
         if (repo.language) {
           var lang = document.createElement('span');
-          lang.textContent = repo.language;
+          lang.textContent = '● ' + repo.language;
           meta.appendChild(lang);
         }
         var stars = document.createElement('span');
@@ -343,17 +610,67 @@
         frag.appendChild(card);
       });
       grid.appendChild(frag);
+
+      /* Révéler les nouvelles cartes */
+      grid.querySelectorAll('.reveal:not(.is-visible)').forEach(function (el) {
+        requestAnimationFrame(function () { el.classList.add('is-visible'); });
+      });
     }
   }
 
-  /* ============ 11. Service worker (PWA) ============ */
+  /* ============ 18. Effet hover 3D sur les cartes ============ */
+  function initCardTilt() {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    if (window.matchMedia('(hover: none)').matches) return;
+
+    document.querySelectorAll('.project-card, .skill-group, .gsie-feature').forEach(function (card) {
+      card.addEventListener('mousemove', function (e) {
+        var rect = card.getBoundingClientRect();
+        var x = e.clientX - rect.left;
+        var y = e.clientY - rect.top;
+        var cx = rect.width / 2;
+        var cy = rect.height / 2;
+        var tiltX = ((y - cy) / cy) * -6;
+        var tiltY = ((x - cx) / cx) * 6;
+        card.style.transform = 'translateY(-5px) perspective(600px) rotateX(' + tiltX + 'deg) rotateY(' + tiltY + 'deg)';
+        card.style.transition = 'transform 0.08s linear, box-shadow 0.3s, border-color 0.15s';
+      });
+      card.addEventListener('mouseleave', function () {
+        card.style.transform = '';
+        card.style.transition = '';
+      });
+    });
+  }
+
+  /* ============ 19. Ligne de scan animée (section GSIE) ============ */
+  function initScanLine() {
+    var illus = document.querySelector('.gsie__illustration');
+    if (!illus) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    var line = document.createElement('div');
+    line.style.cssText = [
+      'position:absolute', 'left:0', 'right:0', 'height:1.5px',
+      'background:linear-gradient(90deg,transparent,rgba(0,255,180,0.8),transparent)',
+      'box-shadow:0 0 8px rgba(0,255,180,0.6)',
+      'pointer-events:none', 'top:0',
+      'animation:scan-line 3s linear infinite'
+    ].join(';');
+    illus.style.position = 'relative';
+    illus.appendChild(line);
+
+    /* keyframe injecté dynamiquement */
+    var styleTag = document.createElement('style');
+    styleTag.textContent = '@keyframes scan-line { from { top: 0%; } to { top: 100%; } }';
+    document.head.appendChild(styleTag);
+  }
+
+  /* ============ 20. Service worker (PWA) ============ */
   function initServiceWorker() {
     if (!('serviceWorker' in navigator)) return;
     if (window.location.protocol === 'file:') return;
     window.addEventListener('load', function () {
-      navigator.serviceWorker.register('/sw.js').catch(function () {
-        /* échec silencieux : le site fonctionne normalement sans le mode hors-ligne */
-      });
+      navigator.serviceWorker.register('/carte-visite/sw.js').catch(function () {});
     });
   }
 
@@ -363,12 +680,22 @@
     initMobileNav();
     initSmoothScroll();
     initActiveNav();
+    initHeader();
     initReveal();
+    initParticles();
+    initCursor();
+    initParallax();
+    initTypewriter();
+    initCounters();
+    initGlitch();
     initYear();
     initVCard();
     initShare();
     initQrCode();
     initGithubRepos();
+    initCardTilt();
+    initScanLine();
     initServiceWorker();
   });
+
 })();
