@@ -554,67 +554,120 @@
     });
   }
 
-  /* ============ 17. Dépôts GitHub ============ */
+  /* ============ 17. Dépôts GitHub — auto-actualisés ============ */
+  /* Couleurs par langage */
+  var LANG_COLORS = {
+    'Kotlin': '#A97BFF', 'Python': '#3572A5', 'TypeScript': '#2b7489',
+    'JavaScript': '#f1e05a', 'Java': '#b07219', 'HTML': '#e34c26',
+    'CSS': '#563d7c', 'Bash': '#89e051', 'Shell': '#89e051'
+  };
+
   function initGithubRepos() {
     var grid = document.getElementById('repos-grid');
     var status = document.getElementById('repos-status');
     var username = config.github;
     if (!grid || !username) return;
 
-    fetch('https://api.github.com/users/' + encodeURIComponent(username) + '/repos?sort=updated&per_page=6')
+    /* Supprimer les skeletons après 8s si l'API ne répond pas */
+    var skeletonTimeout = setTimeout(function () {
+      grid.querySelectorAll('.repo-card--skeleton').forEach(function (s) { s.remove(); });
+      if (status) { status.removeAttribute('hidden'); }
+    }, 8000);
+
+    fetch('https://api.github.com/users/' + encodeURIComponent(username) + '/repos?sort=updated&per_page=12')
       .then(function (res) {
-        if (!res.ok) throw new Error('GitHub API error ' + res.status);
+        if (!res.ok) throw new Error('HTTP ' + res.status);
         return res.json();
       })
       .then(function (repos) {
-        if (!Array.isArray(repos) || repos.length === 0) {
-          if (status) status.textContent = 'Aucun dépôt public pour le moment.';
+        clearTimeout(skeletonTimeout);
+        /* Supprimer les skeletons */
+        grid.querySelectorAll('.repo-card--skeleton').forEach(function (s) { s.remove(); });
+
+        /* Filtrer les forks, trier par updated */
+        var filtered = repos
+          .filter(function (r) { return !r.fork; })
+          .sort(function (a, b) { return new Date(b.updated_at) - new Date(a.updated_at); })
+          .slice(0, 6);
+
+        if (!filtered.length) {
+          if (status) { status.textContent = 'Aucun dépôt public pour le moment.'; status.removeAttribute('hidden'); }
           return;
         }
-        if (status) status.remove();
-        renderRepos(repos.filter(function (r) { return !r.fork; }).slice(0, 6));
+
+        renderRepos(filtered);
       })
       .catch(function () {
-        if (status) status.textContent = 'Dépôts GitHub indisponibles — voir le profil directement sur GitHub.';
+        clearTimeout(skeletonTimeout);
+        grid.querySelectorAll('.repo-card--skeleton').forEach(function (s) { s.remove(); });
+        if (status) status.removeAttribute('hidden');
       });
+
+    function timeAgo(dateStr) {
+      var diff = Date.now() - new Date(dateStr).getTime();
+      var days = Math.floor(diff / 86400000);
+      if (days === 0) return 'aujourd\'hui';
+      if (days === 1) return 'hier';
+      if (days < 30) return 'il y a ' + days + ' j';
+      var months = Math.floor(days / 30);
+      if (months < 12) return 'il y a ' + months + ' mois';
+      return 'il y a ' + Math.floor(months / 12) + ' an' + (Math.floor(months / 12) > 1 ? 's' : '');
+    }
 
     function renderRepos(repos) {
       var frag = document.createDocumentFragment();
-      repos.forEach(function (repo) {
+      repos.forEach(function (repo, idx) {
         var card = document.createElement('article');
         card.className = 'repo-card reveal';
+        card.style.transitionDelay = (idx * 60) + 'ms';
 
+        /* Nom + lien */
         var link = document.createElement('a');
         link.href = repo.html_url;
         link.target = '_blank';
         link.rel = 'noopener noreferrer';
-        link.textContent = repo.name;
+        link.innerHTML = '<svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg> ' + repo.name;
         card.appendChild(link);
 
+        /* Description */
         var desc = document.createElement('p');
-        desc.textContent = repo.description || 'Pas de description fournie.';
+        desc.textContent = repo.description || 'Pas de description.';
         card.appendChild(desc);
 
+        /* Méta : langage + étoiles + date */
         var meta = document.createElement('div');
         meta.className = 'repo-card__meta';
-        if (repo.language) {
-          var lang = document.createElement('span');
-          lang.textContent = '● ' + repo.language;
-          meta.appendChild(lang);
-        }
-        var stars = document.createElement('span');
-        stars.textContent = '★ ' + (repo.stargazers_count || 0);
-        meta.appendChild(stars);
-        card.appendChild(meta);
 
+        if (repo.language) {
+          var langDot = document.createElement('span');
+          var color = LANG_COLORS[repo.language] || 'var(--moss)';
+          langDot.innerHTML = '<span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:' + color + ';margin-right:4px;box-shadow:0 0 6px ' + color + '"></span>' + repo.language;
+          meta.appendChild(langDot);
+        }
+
+        if (repo.stargazers_count > 0) {
+          var stars = document.createElement('span');
+          stars.textContent = '★ ' + repo.stargazers_count;
+          meta.appendChild(stars);
+        }
+
+        var updated = document.createElement('span');
+        updated.textContent = timeAgo(repo.updated_at);
+        updated.style.marginLeft = 'auto';
+        meta.appendChild(updated);
+
+        card.appendChild(meta);
         frag.appendChild(card);
       });
+
       grid.appendChild(frag);
 
-      /* Révéler les nouvelles cartes */
-      grid.querySelectorAll('.reveal:not(.is-visible)').forEach(function (el) {
-        requestAnimationFrame(function () { el.classList.add('is-visible'); });
-      });
+      /* Déclencher les révélations avec délai en cascade */
+      setTimeout(function () {
+        grid.querySelectorAll('.reveal:not(.is-visible)').forEach(function (el) {
+          el.classList.add('is-visible');
+        });
+      }, 50);
     }
   }
 

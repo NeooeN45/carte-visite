@@ -72,7 +72,7 @@
     "url": "https://neooen45.github.io/carte-visite/",
     "github": "NeooeN45",
     "linkedin": "camille-perraudeau-09b781399",
-    "instagram": "",
+    "instagram": "0._camille_.0",
     "region": "Poitiers, Nouvelle-Aquitaine"
   }
   </script>
@@ -123,6 +123,7 @@
           <li><a class="nav__link" href="#a-propos">À propos</a></li>
           <li><a class="nav__link" href="#competences">Compétences</a></li>
           <li><a class="nav__link" href="#projets">Projets</a></li>
+          <li><a class="nav__link" href="#terrain">Terrain</a></li>
           <li><a class="nav__link" href="#gsie">GSIE</a></li>
           <li><a class="nav__link" href="#cv">CV</a></li>
           <li><a class="nav__link" href="#contact">Contact</a></li>
@@ -146,6 +147,7 @@
         <li><a href="#a-propos">À propos</a></li>
         <li><a href="#competences">Compétences</a></li>
         <li><a href="#projets">Projets</a></li>
+        <li><a href="#terrain">Terrain</a></li>
         <li><a href="#gsie">GSIE</a></li>
         <li><a href="#cv">CV</a></li>
         <li><a href="#contact">Contact</a></li>
@@ -157,6 +159,12 @@
 
     <!-- ===================== HERO ===================== -->
     <section class="hero" id="hero" aria-labelledby="hero-title">
+      <!-- Vidéo de fond en boucle — dépose ton fichier dans assets/video/hero.mp4 pour l'activer -->
+      <!-- <video class="hero__video" autoplay muted loop playsinline poster="/carte-visite/assets/img/og-image.png" aria-hidden="true">
+        <source src="/carte-visite/assets/video/hero.mp4" type="video/mp4">
+        <source src="/carte-visite/assets/video/hero.webm" type="video/webm">
+      </video> -->
+
       <!-- Canvas particules interactives -->
       <canvas id="hero-canvas" aria-hidden="true"></canvas>
 
@@ -338,6 +346,7 @@
         <p class="eyebrow reveal">Projets</p>
         <h2 id="projects-title" class="section__title reveal">Ce que je construis</h2>
 
+        <!-- Projet principal mis en avant -->
         <div class="projects__grid">
           <article class="project-card project-card--featured reveal">
             <span class="project-card__badge">Projet principal</span>
@@ -356,16 +365,63 @@
               <a href="https://github.com/NeooeN45" target="_blank" rel="noopener noreferrer">Voir sur GitHub</a>
             </div>
           </article>
-
         </div>
 
-        <!-- Dépôts GitHub récents, chargés dynamiquement -->
-        <div class="repos" id="repos-section">
-          <h3 class="repos__title">Derniers dépôts GitHub</h3>
-          <div class="repos__grid" id="repos-grid" aria-live="polite">
-            <p class="repos__status" id="repos-status">Chargement des dépôts…</p>
+        <!-- Dépôts GitHub — mis à jour automatiquement depuis l'API -->
+        <div class="repos reveal" id="repos-section">
+          <div class="repos__header">
+            <h3 class="repos__title">
+              <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 2a10 10 0 0 0-3.16 19.49c.5.09.68-.22.68-.48v-1.7c-2.78.6-3.37-1.34-3.37-1.34-.46-1.15-1.11-1.46-1.11-1.46-.9-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.89 1.52 2.34 1.08 2.91.83.09-.65.35-1.08.63-1.33-2.22-.25-4.56-1.11-4.56-4.94 0-1.09.39-1.99 1.03-2.68-.1-.25-.45-1.28.1-2.66 0 0 .84-.27 2.75 1.02a9.6 9.6 0 0 1 5 0c1.91-1.29 2.75-1.02 2.75-1.02.55 1.38.2 2.41.1 2.66.64.7 1.03 1.59 1.03 2.68 0 3.84-2.34 4.68-4.57 4.93.36.31.68.92.68 1.85v2.74c0 .27.18.58.69.48A10 10 0 0 0 12 2Z"/></svg>
+              Activité GitHub récente
+            </h3>
+            <a class="repos__see-all" href="https://github.com/NeooeN45" target="_blank" rel="noopener noreferrer">Voir tout →</a>
           </div>
+          <div class="repos__grid" id="repos-grid" aria-live="polite">
+            <!-- Skeletons affichés pendant le chargement -->
+            <div class="repo-card repo-card--skeleton" aria-hidden="true"></div>
+            <div class="repo-card repo-card--skeleton" aria-hidden="true"></div>
+            <div class="repo-card repo-card--skeleton" aria-hidden="true"></div>
+          </div>
+          <p class="repos__status" id="repos-status" hidden>Impossible de charger les dépôts — <a href="https://github.com/NeooeN45" target="_blank" rel="noopener noreferrer">voir GitHub directement</a>.</p>
         </div>
+      </div>
+    </section>
+
+    <!-- ===================== TERRAIN ===================== -->
+    <section class="section section--alt" id="terrain" aria-labelledby="terrain-title">
+      <div class="container section__inner">
+        <p class="eyebrow reveal">Sur le terrain</p>
+        <h2 id="terrain-title" class="section__title reveal">31 semaines à l'ONF</h2>
+        <p class="terrain__lead reveal">Cartographies réglementaires, enquête RCCI, intervention sur feu réel à Chizé — le terrain est la source de tout ce que je conçois.</p>
+
+        <!-- Grille photos — remplacer les src par tes vraies photos -->
+        <div class="terrain__grid reveal">
+          <figure class="terrain-photo terrain-photo--large">
+            <div class="terrain-photo__placeholder" data-label="Relevé forestier"></div>
+            <!-- <img src="/carte-visite/assets/img/terrain-1.jpg" alt="Relevé forestier en forêt" loading="lazy"> -->
+            <figcaption>Relevés de terrain</figcaption>
+          </figure>
+          <figure class="terrain-photo">
+            <div class="terrain-photo__placeholder" data-label="Cartographie"></div>
+            <!-- <img src="/carte-visite/assets/img/terrain-2.jpg" alt="Cartographie réglementaire" loading="lazy"> -->
+            <figcaption>Cartographie réglementaire</figcaption>
+          </figure>
+          <figure class="terrain-photo">
+            <div class="terrain-photo__placeholder" data-label="Forêt de Chizé"></div>
+            <!-- <img src="/carte-visite/assets/img/terrain-3.jpg" alt="Forêt de Chizé" loading="lazy"> -->
+            <figcaption>Forêt de Chizé</figcaption>
+          </figure>
+          <figure class="terrain-photo">
+            <div class="terrain-photo__placeholder" data-label="ONF"></div>
+            <!-- <img src="/carte-visite/assets/img/terrain-4.jpg" alt="Office National des Forêts" loading="lazy"> -->
+            <figcaption>Office National des Forêts</figcaption>
+          </figure>
+        </div>
+
+        <p class="terrain__photo-hint reveal">
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3L14.5 4z"/><circle cx="12" cy="13" r="3"/></svg>
+          Photos de terrain à venir — dépose tes images dans <code>assets/img/</code> pour les activer.
+        </p>
       </div>
     </section>
 
@@ -518,7 +574,7 @@
           </li>
         </ol>
 
-        <a class="button button--primary reveal" href="/cv.pdf" download>
+        <a class="button button--primary reveal" href="/carte-visite/cv.pdf" download>
           <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 3v12m0 0-4-4m4 4 4-4"/><path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg>
           Télécharger le CV complet (PDF)
         </a>
@@ -561,11 +617,10 @@
                 <span>linkedin.com/in/camille-perraudeau</span>
               </a>
             </li>
-            <!-- Optionnel : supprimez ce bloc si vous ne souhaitez pas afficher Instagram -->
             <li>
-              <a href="https://instagram.com/" target="_blank" rel="noopener noreferrer">
+              <a href="https://www.instagram.com/0._camille_.0/" target="_blank" rel="noopener noreferrer">
                 <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="3.5" y="3.5" width="17" height="17" rx="4.5"/><circle cx="12" cy="12" r="3.8"/><circle cx="17.2" cy="6.8" r="1"/></svg>
-                <span>Instagram (optionnel)</span>
+                <span>instagram.com/0._camille_.0</span>
               </a>
             </li>
           </ul>

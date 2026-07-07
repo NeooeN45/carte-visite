@@ -1249,7 +1249,196 @@ body:has(button:hover) .cursor-ring {
   to   { stroke-dashoffset: -14; }
 }
 
-/* -------------------- 17. Media queries -------------------- */
+/* -------------------- 17. Repos header & skeletons -------------------- */
+.repos {
+  margin-top: var(--space-8);
+}
+.repos__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--space-5);
+  gap: var(--space-4);
+}
+.repos__title {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  font-size: var(--fs-md);
+  font-family: var(--font-display);
+  font-weight: 700;
+  color: var(--mist);
+}
+.repos__title .icon {
+  color: var(--canopy);
+  filter: drop-shadow(0 0 6px var(--canopy-glow));
+}
+.repos__see-all {
+  font-size: var(--fs-sm);
+  color: var(--canopy);
+  font-weight: 500;
+  white-space: nowrap;
+  transition: text-shadow var(--t-fast);
+}
+.repos__see-all:hover { text-shadow: 0 0 12px var(--canopy-glow); }
+
+.repos__status {
+  font-size: var(--fs-sm);
+  color: var(--moss);
+  padding: var(--space-4);
+}
+.repos__status a { color: var(--canopy); }
+
+/* Skeleton loading */
+.repo-card--skeleton {
+  height: 110px;
+  background: linear-gradient(90deg,
+    var(--ink-raised) 25%,
+    var(--ink-raised-2) 50%,
+    var(--ink-raised) 75%
+  );
+  background-size: 200% 100%;
+  animation: skeleton-shimmer 1.5s ease-in-out infinite;
+  pointer-events: none;
+}
+@keyframes skeleton-shimmer {
+  0%   { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* -------------------- 18. Vidéo fond hero -------------------- */
+.hero__video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 0;
+  opacity: 0.35;
+  /* Filtre néon pour intégrer la vidéo dans la palette */
+  filter: saturate(0.6) brightness(0.6) hue-rotate(160deg);
+  -webkit-mask-image: linear-gradient(to bottom, black 0%, black 70%, transparent 100%);
+          mask-image: linear-gradient(to bottom, black 0%, black 70%, transparent 100%);
+}
+/* Quand la vidéo est active, réduire l'aurora pour éviter la surcharge */
+.hero:has(.hero__video:not([style*="display:none"])) .hero__aurora { opacity: 0.4; }
+
+/* -------------------- 19. Section Terrain -------------------- */
+.terrain__lead {
+  max-width: 56ch;
+  color: var(--moss);
+  font-size: var(--fs-md);
+  margin-bottom: var(--space-7);
+}
+
+.terrain__grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: 220px 220px;
+  gap: var(--space-3);
+  margin-bottom: var(--space-5);
+}
+
+.terrain-photo {
+  position: relative;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  border: 1px solid var(--line);
+  transition: border-color var(--t-base), transform var(--t-base) var(--ease-spring), box-shadow var(--t-base);
+}
+.terrain-photo:hover {
+  border-color: var(--canopy);
+  transform: scale(1.02);
+  box-shadow: 0 8px 30px -8px var(--canopy-glow);
+  z-index: 1;
+}
+.terrain-photo--large {
+  grid-column: span 2;
+  grid-row: span 2;
+}
+.terrain-photo img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform var(--t-slow) var(--ease);
+}
+.terrain-photo:hover img { transform: scale(1.05); }
+
+/* Placeholder SVG en attendant les vraies photos */
+.terrain-photo__placeholder {
+  width: 100%; height: 100%;
+  background:
+    linear-gradient(135deg, var(--ink-raised) 0%, var(--ink-raised-2) 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+.terrain-photo__placeholder::before {
+  /* Grille topographique animée */
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(0,255,180,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,255,180,0.04) 1px, transparent 1px);
+  background-size: 30px 30px;
+  animation: grid-drift 8s linear infinite;
+}
+.terrain-photo__placeholder::after {
+  content: attr(data-label);
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--moss-dim);
+  z-index: 1;
+  text-align: center;
+  padding: var(--space-3);
+}
+@keyframes grid-drift {
+  from { background-position: 0 0; }
+  to   { background-position: 30px 30px; }
+}
+
+figcaption {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  background: linear-gradient(to top, rgba(5,7,9,0.85) 0%, transparent 100%);
+  color: var(--mist);
+  font-size: var(--fs-xs);
+  font-family: var(--font-mono);
+  letter-spacing: 0.06em;
+  padding: var(--space-4) var(--space-3) var(--space-2);
+  text-align: center;
+  opacity: 0;
+  transform: translateY(4px);
+  transition: opacity var(--t-base), transform var(--t-base);
+}
+.terrain-photo:hover figcaption { opacity: 1; transform: translateY(0); }
+
+.terrain__photo-hint {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--fs-xs);
+  color: var(--moss-dim);
+  font-family: var(--font-mono);
+  padding: var(--space-3) var(--space-4);
+  border: 1px dashed var(--line);
+  border-radius: var(--radius-md);
+  width: fit-content;
+}
+.terrain__photo-hint .icon { flex-shrink: 0; color: var(--moss-dim); }
+.terrain__photo-hint code {
+  background: var(--ink-raised);
+  padding: 0.1em 0.4em;
+  border-radius: 4px;
+  font-size: inherit;
+}
+
+/* -------------------- 20. Media queries -------------------- */
 
 /* Tablette et desktop */
 @media (min-width: 640px) {
@@ -1279,4 +1468,13 @@ body:has(button:hover) .cursor-ring {
   .hero { padding-block: calc(72px + var(--space-6)) var(--space-8); min-height: auto; }
   .hero__title { font-size: clamp(2rem, 8vw, 3rem); }
   .section__title { font-size: clamp(1.6rem, 5vw, 2.4rem); }
+  .terrain__grid {
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 140px 140px 140px;
+  }
+  .terrain-photo--large {
+    grid-column: span 2;
+    grid-row: span 1;
+  }
+  .repos__header { flex-direction: column; align-items: flex-start; }
 }
