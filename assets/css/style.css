@@ -130,8 +130,6 @@ html {
 body {
   min-height: 100svh;
   background: var(--ink);
-  /* Forcer un fond sombre derrière la hero vidéo, même en thème clair */
-  background-color: #0A0E0B;
   color: var(--mist);
   font-family: var(--font-body);
   font-size: var(--fs-base);
