@@ -495,10 +495,8 @@ body:has(button:hover) .cursor-ring {
           backdrop-filter: blur(2px);
 }
 
-/* Canvas, aurora, backdrop — désactivés (remplacés par la vidéo) */
-#hero-canvas { display: none; }
-.hero__aurora { display: none; }
-.hero__backdrop { display: none; }
+/* Canvas, aurora, backdrop — supprimés du HTML ; sécurité si présents */
+#hero-canvas, .hero__aurora, .hero__backdrop { display: none !important; }
 
 .hero__inner {
   position: relative;
@@ -1313,8 +1311,7 @@ body:has(button:hover) .cursor-ring {
   -webkit-mask-image: linear-gradient(to bottom, black 0%, black 70%, transparent 100%);
           mask-image: linear-gradient(to bottom, black 0%, black 70%, transparent 100%);
 }
-/* Quand la vidéo est active, réduire l'aurora pour éviter la surcharge */
-.hero:has(.hero__video:not([style*="display:none"])) .hero__aurora { opacity: 0.4; }
+
 
 /* -------------------- 19. Section Terrain -------------------- */
 .terrain__lead {
@@ -1525,8 +1522,5 @@ figcaption {
   .project-card,
   .repo-card { transform: none !important; }
 
-  /* Désactiver aurora (GPU inutile sur mobile) */
-  .hero__aurora > span { animation: none; }
-  .photo-ring { animation: none; }
   .hero__scroll { display: none; } /* économise de l'espace */
 }
