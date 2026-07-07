@@ -4,7 +4,7 @@
  * stale-while-revalidate pour les polices Google Fonts.
  * Incrémentez CACHE_VERSION à chaque déploiement pour invalider l'ancien cache.
  */
-const CACHE_VERSION = 'cp-carte-visite-v1';
+const CACHE_VERSION = 'cp-carte-visite-v3';
 
 const APP_SHELL = [
   '/carte-visite/',
