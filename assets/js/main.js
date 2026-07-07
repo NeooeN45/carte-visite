@@ -562,12 +562,17 @@
     document.head.appendChild(styleTag);
   }
 
-  /* ============ 20. Service worker (PWA) ============ */
+  /* ============ 20. Service worker — désactivé, nettoyage forcé ============ */
   function initServiceWorker() {
     if (!('serviceWorker' in navigator)) return;
-    if (window.location.protocol === 'file:') return;
-    window.addEventListener('load', function () {
-      navigator.serviceWorker.register('/carte-visite/sw.js').catch(function () {});
+    /* Désenregistre tous les SW et vide tous les caches, puis recharge */
+    navigator.serviceWorker.getRegistrations().then(function (regs) {
+      var hadSW = regs.length > 0;
+      regs.forEach(function (r) { r.unregister(); });
+      caches.keys().then(function (keys) {
+        keys.forEach(function (k) { caches.delete(k); });
+        if (hadSW) window.location.reload();
+      });
     });
   }
 
