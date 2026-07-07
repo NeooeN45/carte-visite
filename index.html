@@ -114,7 +114,25 @@
   <header class="site-header" id="site-header">
     <div class="container site-header__inner">
       <a href="#hero" class="brand" aria-label="Camille Perraudeau — Retour en haut de page">
-        <span class="brand__mark" aria-hidden="true">CP</span>
+        <!-- Logo feuille + initiales -->
+        <span class="brand__mark" aria-hidden="true">
+          <svg viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg" width="36" height="36">
+            <!-- Feuille -->
+            <path d="M18 4 C10 4, 4 12, 6 22 C8 30, 16 33, 18 33 C20 33, 28 30, 30 22 C32 12, 26 4, 18 4Z" fill="url(#leaf-grad)" opacity="0.9"/>
+            <!-- Nervure centrale -->
+            <path d="M18 8 L18 30" stroke="rgba(255,255,255,0.5)" stroke-width="1" stroke-linecap="round"/>
+            <!-- Nervures latérales -->
+            <path d="M18 14 L13 19 M18 19 L23 24 M18 22 L13 26" stroke="rgba(255,255,255,0.3)" stroke-width="0.8" stroke-linecap="round"/>
+            <!-- Initiales -->
+            <text x="18" y="22" text-anchor="middle" font-family="system-ui,sans-serif" font-size="10" font-weight="800" fill="white" letter-spacing="-0.5">CP</text>
+            <defs>
+              <linearGradient id="leaf-grad" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stop-color="#5DB87A"/>
+                <stop offset="100%" stop-color="#3A7A52"/>
+              </linearGradient>
+            </defs>
+          </svg>
+        </span>
         <span class="brand__name">Camille Perraudeau</span>
       </a>
 
@@ -274,37 +292,58 @@
         <h2 id="skills-title" class="section__title reveal">Une double culture terrain / code</h2>
 
         <div class="skills__grid">
-          <div class="skill-group reveal">
-            <h3>Langages &amp; frameworks</h3>
+
+          <div class="skill-group reveal" data-domain="code">
+            <div class="skill-group__header">
+              <svg class="skill-group__icon" viewBox="0 0 24 24" aria-hidden="true"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+              <h3>Langages &amp; frameworks</h3>
+            </div>
             <ul class="skill-group__list">
               <li>Python</li><li>TypeScript</li><li>JavaScript</li><li>Kotlin</li>
               <li>Java</li><li>FastAPI</li><li>HTML5</li><li>CSS3</li>
             </ul>
           </div>
-          <div class="skill-group reveal">
-            <h3>Systèmes &amp; infrastructure</h3>
+
+          <div class="skill-group reveal" data-domain="infra">
+            <div class="skill-group__header">
+              <svg class="skill-group__icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+              <h3>Systèmes &amp; infrastructure</h3>
+            </div>
             <ul class="skill-group__list">
               <li>Linux</li><li>Docker</li><li>Git</li><li>Android</li><li>Bash</li>
             </ul>
           </div>
-          <div class="skill-group reveal">
-            <h3>SIG &amp; terrain</h3>
+
+          <div class="skill-group reveal" data-domain="terrain">
+            <div class="skill-group__header">
+              <svg class="skill-group__icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 17l4-8 4 5 3-3 4 6H3Z"/><circle cx="17" cy="7" r="2"/></svg>
+              <h3>SIG &amp; terrain</h3>
+            </div>
             <ul class="skill-group__list">
-              <li>QGIS</li><li>Cartographie réglementaire</li><li>Cubage forestier</li>
+              <li>QGIS</li><li>Cartographie réglementaire</li><li>Cubage forestier</li><li>Inventaire ONF</li>
             </ul>
           </div>
-          <div class="skill-group reveal">
-            <h3>IoT &amp; réseaux distribués</h3>
+
+          <div class="skill-group reveal" data-domain="iot">
+            <div class="skill-group__header">
+              <svg class="skill-group__icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.55a11 11 0 0 1 14.08 0"/><path d="M1.42 9a16 16 0 0 1 21.16 0"/><path d="M8.53 16.11a6 6 0 0 1 6.95 0"/><circle cx="12" cy="20" r="1"/></svg>
+              <h3>IoT &amp; réseaux maillés</h3>
+            </div>
             <ul class="skill-group__list">
               <li>Arduino</li><li>LoRa</li><li>Meshtastic</li><li>Systèmes distribués</li>
             </ul>
           </div>
-          <div class="skill-group reveal">
-            <h3>Intelligence artificielle</h3>
+
+          <div class="skill-group reveal" data-domain="ia">
+            <div class="skill-group__header">
+              <svg class="skill-group__icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a4 4 0 0 1 4 4v1h1a3 3 0 0 1 0 6h-1v1a4 4 0 0 1-8 0v-1H7a3 3 0 0 1 0-6h1V6a4 4 0 0 1 4-4Z"/><path d="M9 12h6M12 9v6"/></svg>
+              <h3>Intelligence artificielle</h3>
+            </div>
             <ul class="skill-group__list">
-              <li>Machine Learning</li><li>Analyse de données</li><li>Automatisation</li>
+              <li>Machine Learning</li><li>Analyse de données</li><li>Automatisation</li><li>LLM / RAG</li>
             </ul>
           </div>
+
         </div>
       </div>
     </section>

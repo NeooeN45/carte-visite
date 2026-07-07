@@ -284,16 +284,12 @@ h1, h2, h3, h4 {
 .brand__mark {
   display: grid;
   place-items: center;
-  width: 34px; height: 34px;
+  width: 36px; height: 36px;
   border-radius: var(--radius-sm);
-  background: linear-gradient(135deg, var(--canopy), var(--dusk));
-  color: #020808;
-  font-family: var(--font-mono);
-  font-size: 0.72rem;
-  font-weight: 700;
-  letter-spacing: 0.02em;
-  box-shadow: 0 0 16px var(--canopy-glow), 0 0 32px var(--dusk-glow);
+  background: none;
+  box-shadow: 0 0 16px var(--canopy-glow);
   animation: pulse-brand 3s ease-in-out infinite;
+  overflow: hidden;
 }
 .brand__name { white-space: nowrap; }
 
@@ -676,12 +672,28 @@ h1, h2, h3, h4 {
 }
 .skill-group:hover { border-color: var(--canopy); transform: translateY(-4px); box-shadow: 0 8px 30px -8px var(--canopy-glow); }
 .skill-group:hover::before { opacity: 1; }
+/* Header icône + titre */
+.skill-group__header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  margin-bottom: var(--space-4);
+}
+.skill-group__icon {
+  width: 20px; height: 20px;
+  flex-shrink: 0;
+  stroke: var(--canopy);
+  stroke-width: 1.8;
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  opacity: 0.85;
+}
 .skill-group h3 {
   font-size: var(--fs-sm);
   font-family: var(--font-body);
   font-weight: 600;
   color: var(--mist);
-  margin-bottom: var(--space-4);
   position: relative;
 }
 .skill-group__list {
@@ -696,9 +708,23 @@ h1, h2, h3, h4 {
   color: var(--moss);
   border: 1px solid var(--line);
   border-radius: var(--radius-full);
-  padding: 0.35rem 0.75rem;
+  padding: 0.3rem 0.7rem;
   transition: border-color var(--t-fast) var(--ease), color var(--t-fast) var(--ease), background var(--t-fast) var(--ease), box-shadow var(--t-fast) var(--ease);
 }
+
+/* Couleurs par domaine au hover */
+[data-domain="code"]:hover    .skill-group__list li { border-color: rgba(93,184,122,0.5); color: var(--canopy); }
+[data-domain="infra"]:hover   .skill-group__list li { border-color: rgba(93,150,220,0.5); color: #5d96dc; }
+[data-domain="terrain"]:hover .skill-group__list li { border-color: rgba(138,184,93,0.5); color: #8ab85d; }
+[data-domain="iot"]:hover     .skill-group__list li { border-color: rgba(220,150,93,0.5); color: #dc965d; }
+[data-domain="ia"]:hover      .skill-group__list li { border-color: rgba(180,93,220,0.5); color: #b45ddc; }
+
+[data-domain="code"]    .skill-group__icon { stroke: #5DB87A; }
+[data-domain="infra"]   .skill-group__icon { stroke: #5d96dc; }
+[data-domain="terrain"] .skill-group__icon { stroke: #8ab85d; }
+[data-domain="iot"]     .skill-group__icon { stroke: #dc965d; }
+[data-domain="ia"]      .skill-group__icon { stroke: #b45ddc; }
+
 .skill-group:hover .skill-group__list li {
   border-color: rgba(0, 255, 180, 0.3);
   color: var(--canopy);
