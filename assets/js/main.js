@@ -131,68 +131,8 @@
   /* ============ 6. Canvas particules — supprimé (remplacé par vidéo de fond) ============ */
   function initParticles() { /* no-op — remplacé par vidéo de fond */ }
 
-  /* ============ 7. Curseur custom ============ */
-  function initCursor() {
-    if (window.matchMedia('(hover: none)').matches) return;
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-
-    var cursor = document.createElement('div');
-    cursor.className = 'cursor';
-    var ring = document.createElement('div');
-    ring.className = 'cursor-ring';
-    document.body.appendChild(cursor);
-    document.body.appendChild(ring);
-
-    var mouseX = -100, mouseY = -100;
-    var ringX = -100, ringY = -100;
-    var rafId = null;
-
-    /* Démarre la boucle RAF uniquement si elle n'est pas déjà en cours */
-    function startRingLoop() {
-      if (rafId !== null) return;
-      rafId = requestAnimationFrame(animateRing);
-    }
-
-    /* Ring suit avec inertie — s'arrête quand il est suffisamment proche */
-    function animateRing() {
-      var dx = mouseX - ringX;
-      var dy = mouseY - ringY;
-      ringX += dx * 0.12;
-      ringY += dy * 0.12;
-      ring.style.transform = 'translate(' + ringX + 'px,' + ringY + 'px) translate(-50%,-50%)';
-
-      /* Arrête la boucle quand le ring est à moins de 0.5px — évite de tourner à vide */
-      if (Math.abs(dx) < 0.5 && Math.abs(dy) < 0.5) {
-        rafId = null;
-        return;
-      }
-      rafId = requestAnimationFrame(animateRing);
-    }
-
-    /* transform uniquement — aucun reflow, démarre la boucle à chaque mouvement */
-    document.addEventListener('mousemove', function (e) {
-      mouseX = e.clientX;
-      mouseY = e.clientY;
-      cursor.style.transform = 'translate(' + mouseX + 'px,' + mouseY + 'px) translate(-50%,-50%)';
-      startRingLoop();
-    }, { passive: true });
-
-    document.addEventListener('mouseleave', function () {
-      cursor.style.opacity = '0';
-      ring.style.opacity = '0';
-    });
-    document.addEventListener('mouseenter', function () {
-      cursor.style.opacity = '1';
-      ring.style.opacity = '0.6';
-    });
-
-    document.addEventListener('mousedown', function () {
-      cursor.style.transform = 'translate(' + mouseX + 'px,' + mouseY + 'px) translate(-50%,-50%) scale(0.7)';
-    });
-    document.addEventListener('mouseup', function () {
-      cursor.style.transform = 'translate(' + mouseX + 'px,' + mouseY + 'px) translate(-50%,-50%) scale(1)';
-    });
-  }
+  /* ============ 7. Curseur custom — supprimé ============ */
+  function initCursor() { /* no-op */ }
 
   /* ============ 8. Effet parallaxe hero — supprimé (backdrop/aurora supprimés) ============ */
   function initParallax() { /* no-op */ }

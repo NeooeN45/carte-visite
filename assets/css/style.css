@@ -138,11 +138,7 @@ body {
   transition: background-color var(--t-base) var(--ease), color var(--t-base) var(--ease);
 }
 
-/* Curseur custom uniquement sur desktop pointer */
-@media (hover: hover) and (pointer: fine) {
-  body { cursor: none; }
-  button { cursor: none; }
-}
+
 
 img, svg { display: block; max-width: 100%; }
 img { height: auto; }
@@ -157,10 +153,7 @@ button {
   cursor: pointer;
 }
 
-/* Curseur natif sur touch/mobile */
-@media (hover: none), (pointer: coarse) {
-  body, button, a { cursor: auto; }
-}
+
 
 input, textarea { font: inherit; }
 
@@ -180,35 +173,7 @@ h1, h2, h3, h4 {
   }
 }
 
-/* -------------------- 3. Curseur custom -------------------- */
-.cursor {
-  position: fixed;
-  top: 0; left: 0;
-  width: 10px; height: 10px;
-  background: var(--canopy);
-  border-radius: 50%;
-  pointer-events: none;
-  z-index: 9999;
-  will-change: transform;
-  transition: opacity 200ms;
-  mix-blend-mode: screen;
-}
-.cursor-ring {
-  position: fixed;
-  top: 0; left: 0;
-  width: 32px; height: 32px;
-  border: 1.5px solid var(--canopy);
-  border-radius: 50%;
-  pointer-events: none;
-  z-index: 9998;
-  will-change: transform;
-  transition: opacity 200ms, border-color 200ms;
-  opacity: 0.6;
-}
-body:has(a:hover) .cursor,
-body:has(button:hover) .cursor { background: var(--dusk); }
-body:has(a:hover) .cursor-ring,
-body:has(button:hover) .cursor-ring { border-color: var(--dusk); opacity: 0.3; }
+
 
 /* #theme-toggle icônes */
 #theme-toggle .icon--moon { display: none; }
