@@ -500,33 +500,20 @@ h1, h2, h3, h4 {
 .hero__title {
   font-size: var(--fs-3xl);
   margin-bottom: var(--space-4);
-  /* Thème sombre : blanc → vert */
-  background: linear-gradient(135deg, #FFFFFF 0%, #A8D5B0 55%, var(--canopy) 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  text-shadow: none;
-}
-/* Thème clair : texte sombre lisible sur vidéo */
-:root[data-theme="light"] .hero__title {
-  background: linear-gradient(135deg, #0A2E12 0%, #1a5c2a 55%, var(--canopy) 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  filter: drop-shadow(0 1px 8px rgba(255,255,255,0.6));
+  /* Blanc pur sur vidéo — lisible dans les deux thèmes */
+  color: #ffffff;
+  text-shadow:
+    0 2px 16px rgba(0,0,0,0.7),
+    0 1px 4px rgba(0,0,0,0.9);
 }
 
 .hero__slogan {
   max-width: 46ch;
   font-size: var(--fs-md);
-  color: var(--moss);
+  color: rgba(255,255,255,0.92);
+  text-shadow: 0 1px 8px rgba(0,0,0,0.8);
   margin-bottom: var(--space-6);
   line-height: 1.7;
-}
-/* Thème clair : slogan plus contrasté */
-:root[data-theme="light"] .hero__slogan {
-  color: #1a3a24;
-  text-shadow: 0 1px 6px rgba(255,255,255,0.5);
 }
 
 /* Typing cursor effect */
