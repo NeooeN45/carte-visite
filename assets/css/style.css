@@ -136,11 +136,12 @@ body {
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   transition: background-color var(--t-base) var(--ease), color var(--t-base) var(--ease);
-  cursor: none; /* curseur custom activé via JS */
 }
 
-/* fallback curseur si JS désactivé */
-@media (hover: none) { body { cursor: auto; } }
+/* Curseur custom uniquement sur desktop pointer */
+@media (hover: hover) and (pointer: fine) {
+  body { cursor: none; }
+}
 
 img, svg { display: block; max-width: 100%; }
 img { height: auto; }
@@ -152,7 +153,11 @@ button {
   color: inherit;
   background: none;
   border: none;
-  cursor: none;
+  cursor: pointer; /* always pointer — overridden to none only on desktop */
+}
+
+@media (hover: hover) and (pointer: fine) {
+  button { cursor: none; }
 }
 
 input, textarea { font: inherit; }
@@ -173,7 +178,13 @@ h1, h2, h3, h4 {
   }
   body { cursor: auto; }
   button { cursor: pointer; }
-  .cursor, .cursor-trail { display: none; }
+  .cursor, .cursor-ring { display: none; }
+}
+
+/* Désactiver le curseur custom + animations lourdes sur mobile/touch */
+@media (hover: none), (pointer: coarse) {
+  .cursor, .cursor-ring { display: none !important; }
+  body, button, a { cursor: auto; }
 }
 
 /* -------------------- 3. Curseur custom -------------------- */
@@ -377,7 +388,7 @@ body:has(button:hover) .cursor-ring {
 .icon-button {
   display: grid;
   place-items: center;
-  width: 40px; height: 40px;
+  width: 44px; height: 44px;   /* 44px = touch target minimum WCAG 2.5.5 */
   border-radius: var(--radius-full);
   border: 1px solid var(--line);
   color: var(--mist);
@@ -411,6 +422,7 @@ body:has(button:hover) .cursor-ring {
   align-items: center;
   gap: var(--space-2);
   padding: 0.85rem 1.6rem;
+  min-height: 44px;            /* touch target minimum */
   border-radius: var(--radius-full);
   font-size: var(--fs-sm);
   font-weight: 600;
@@ -654,6 +666,7 @@ body:has(button:hover) .cursor-ring {
   color: var(--moss);
   padding-block: var(--space-2);
   padding-inline: var(--space-3);
+  min-height: 44px;             /* touch target minimum */
   border: 1px solid transparent;
   border-radius: var(--radius-full);
   transition: color var(--t-fast) var(--ease), border-color var(--t-fast) var(--ease), background var(--t-fast) var(--ease), box-shadow var(--t-base) var(--ease);
@@ -929,7 +942,9 @@ body:has(button:hover) .cursor-ring {
 .repo-card__meta { display: flex; gap: var(--space-4); font-size: var(--fs-xs); color: var(--moss-dim); font-family: var(--font-mono); }
 
 /* -------------------- 12. GSIE -------------------- */
-.gsie__inner {
+/* aliases : HTML utilise gsie__layout/gsie__pillars/gsie-pillar */
+.gsie__inner,
+.gsie__layout {
   display: grid;
   grid-template-columns: 1fr;
   gap: var(--space-7);
@@ -938,26 +953,32 @@ body:has(button:hover) .cursor-ring {
 .gsie__text p { color: var(--moss); margin-bottom: var(--space-4); }
 .gsie__text strong { color: var(--mist); font-weight: 600; }
 
-.gsie__features {
+.gsie__features,
+.gsie__pillars {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: var(--space-4);
 }
-.gsie-feature {
+.gsie-feature,
+.gsie-pillar {
   background: var(--ink-raised);
   border: 1px solid var(--line);
   border-radius: var(--radius-md);
   padding: var(--space-4);
   transition: border-color var(--t-fast), transform var(--t-base) var(--ease-spring), box-shadow var(--t-base);
 }
-.gsie-feature:hover { border-color: var(--canopy); transform: translateY(-3px); box-shadow: 0 6px 20px -6px var(--canopy-glow); }
-.gsie-feature__icon {
+.gsie-feature:hover,
+.gsie-pillar:hover { border-color: var(--canopy); transform: translateY(-3px); box-shadow: 0 6px 20px -6px var(--canopy-glow); }
+.gsie-feature__icon,
+.gsie-pillar__icon {
   font-size: 1.6rem;
   margin-bottom: var(--space-3);
   filter: drop-shadow(0 0 8px var(--canopy-glow));
 }
-.gsie-feature h4 { font-size: var(--fs-sm); color: var(--mist); margin-bottom: var(--space-2); }
-.gsie-feature p { font-size: var(--fs-xs); color: var(--moss); line-height: 1.5; }
+.gsie-feature h4,
+.gsie-pillar h4 { font-size: var(--fs-sm); color: var(--mist); margin-bottom: var(--space-2); }
+.gsie-feature p,
+.gsie-pillar p { font-size: var(--fs-xs); color: var(--moss); line-height: 1.5; }
 
 /* Illustration SVG GSIE */
 .gsie__illustration {
@@ -1149,15 +1170,25 @@ body:has(button:hover) .cursor-ring {
   padding: var(--space-4) var(--space-5);
   gap: var(--space-1);
 }
-.mobile-nav__list a {
+/* Support class mobile-nav__link + fallback sélecteur générique */
+.mobile-nav__list a,
+.mobile-nav__link {
   font-size: var(--fs-base);
   color: var(--moss);
-  padding: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  min-height: 48px;              /* touch target généreux */
   border-radius: var(--radius-sm);
-  display: block;
+  display: flex;
+  align-items: center;
   transition: color var(--t-fast), background var(--t-fast);
 }
-.mobile-nav__list a:hover { color: var(--canopy); background: var(--canopy-dim); }
+.mobile-nav__list a:hover,
+.mobile-nav__link:hover { color: var(--canopy); background: var(--canopy-dim); }
+.mobile-nav__list a:focus-visible,
+.mobile-nav__link:focus-visible {
+  outline: 2px solid var(--canopy);
+  outline-offset: 2px;
+}
 
 /* -------------------- 16. Animations & keyframes -------------------- */
 
@@ -1416,7 +1447,15 @@ figcaption {
   transform: translateY(4px);
   transition: opacity var(--t-base), transform var(--t-base);
 }
-.terrain-photo:hover figcaption { opacity: 1; transform: translateY(0); }
+/* Desktop hover */
+@media (hover: hover) {
+  .terrain-photo:hover figcaption { opacity: 1; transform: translateY(0); }
+}
+/* Mobile/touch : figcaption toujours visible */
+@media (hover: none), (pointer: coarse) {
+  figcaption { opacity: 1; transform: translateY(0); }
+  .terrain-photo:hover { transform: none; } /* pas de scale sur touch */
+}
 
 .terrain__photo-hint {
   display: flex;
@@ -1453,7 +1492,8 @@ figcaption {
 @media (min-width: 768px) {
   .nav { display: flex; align-items: center; }
   .nav-toggle { display: none; }
-  .gsie__inner {
+  .gsie__inner,
+  .gsie__layout {
     grid-template-columns: 1fr 1fr;
     align-items: start;
   }
@@ -1463,11 +1503,41 @@ figcaption {
   .about__grid { grid-template-columns: 2fr 1fr; }
 }
 
-/* Mobile strict */
+/* -------------------- Mobile strict (< 768px) -------------------- */
 @media (max-width: 767px) {
-  .hero { padding-block: calc(72px + var(--space-6)) var(--space-8); min-height: auto; }
-  .hero__title { font-size: clamp(2rem, 8vw, 3rem); }
-  .section__title { font-size: clamp(1.6rem, 5vw, 2.4rem); }
+
+  /* Hero */
+  .hero {
+    padding-block: calc(72px + var(--space-6)) var(--space-8);
+    min-height: auto;
+  }
+  .hero__title { font-size: clamp(2rem, 9vw, 3rem); }
+  .hero__slogan { font-size: var(--fs-base); }
+  /* désactiver le curseur clignotant sur mobile — économise une animation */
+  .hero__slogan::after { display: none; }
+  .hero__actions { flex-direction: column; align-items: center; gap: var(--space-3); }
+  .hero__links { gap: var(--space-3); }
+
+  /* Typographie générale */
+  .section__title { font-size: clamp(1.6rem, 6vw, 2.2rem); }
+  .eyebrow { font-size: 0.875rem; } /* 14px min lisible */
+
+  /* En-tête */
+  .site-header { padding-block: var(--space-3); }
+  .site-header__logo { font-size: var(--fs-sm); }
+
+  /* Nav mobile — déjà géré globalement (min-height: 48px), rien à surcharger ici */
+
+  /* Cards projets — 1 colonne sur petits écrans */
+  .projects__grid { grid-template-columns: 1fr; }
+  .repos__grid    { grid-template-columns: 1fr; }
+  .repos__header  { flex-direction: column; align-items: flex-start; }
+
+  /* GSIE pillars — 1 colonne */
+  .gsie__pillars,
+  .gsie__features { grid-template-columns: 1fr 1fr; }
+
+  /* Galerie terrain */
   .terrain__grid {
     grid-template-columns: 1fr 1fr;
     grid-template-rows: 140px 140px 140px;
@@ -1476,5 +1546,25 @@ figcaption {
     grid-column: span 2;
     grid-row: span 1;
   }
-  .repos__header { flex-direction: column; align-items: flex-start; }
+
+  /* Skills — 1 colonne */
+  .skills__grid { grid-template-columns: 1fr 1fr; }
+
+  /* Contact — 1 colonne */
+  .contact__layout { grid-template-columns: 1fr; }
+
+  /* CV section padding réduit */
+  .section { padding-block: var(--space-7); }
+
+  /* Compteurs — plus grands sur mobile */
+  .stat__value { font-size: clamp(2rem, 8vw, 3rem); }
+
+  /* Désactiver tilt 3D des cartes sur touch (géré aussi en JS) */
+  .project-card,
+  .repo-card { transform: none !important; }
+
+  /* Désactiver aurora (GPU inutile sur mobile) */
+  .hero__aurora > span { animation: none; }
+  .photo-ring { animation: none; }
+  .hero__scroll { display: none; } /* économise de l'espace */
 }

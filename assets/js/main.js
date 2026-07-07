@@ -36,11 +36,13 @@
     if (!toggle || !panel) return;
     function close() {
       panel.dataset.open = 'false';
+      panel.setAttribute('aria-hidden', 'true');
       toggle.setAttribute('aria-expanded', 'false');
       toggle.setAttribute('aria-label', 'Ouvrir le menu');
     }
     function open() {
       panel.dataset.open = 'true';
+      panel.setAttribute('aria-hidden', 'false');
       toggle.setAttribute('aria-expanded', 'true');
       toggle.setAttribute('aria-label', 'Fermer le menu');
     }
@@ -124,6 +126,9 @@
     var canvas = document.getElementById('hero-canvas');
     if (!canvas) return;
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) { canvas.style.display = 'none'; return; }
+    /* Sur mobile/touch : canvas trop gourmand en GPU — on le désactive */
+    var isTouchDevice = window.matchMedia('(hover: none), (pointer: coarse)').matches;
+    if (isTouchDevice) { canvas.style.display = 'none'; return; }
 
     var ctx = canvas.getContext('2d');
     var particles = [];
@@ -256,12 +261,17 @@
     }, { passive: true });
     heroEl.addEventListener('touchend', function () { mouse.active = false; });
 
+    /* Debounce resize — évite de re-créer les particules à chaque pixel */
+    var resizeTimer;
     window.addEventListener('resize', function () {
-      cancelAnimationFrame(animId);
-      resize();
-      init();
-      draw();
-    });
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(function () {
+        cancelAnimationFrame(animId);
+        resize();
+        init();
+        draw();
+      }, 150);
+    }, { passive: true });
 
     resize();
     init();
@@ -322,6 +332,8 @@
   /* ============ 8. Effet parallaxe hero ============ */
   function initParallax() {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    /* Parallaxe désactivé sur touch — scroll janky sur mobile */
+    if (window.matchMedia('(hover: none), (pointer: coarse)').matches) return;
     var backdrop = document.querySelector('.hero__backdrop');
     var aurora = document.querySelector('.hero__aurora');
     if (!backdrop && !aurora) return;
@@ -344,8 +356,10 @@
     el.textContent = '';
     el.style.opacity = '1';
     var i = 0;
-    var delay = 80;
-    var startDelay = 600; /* après l'animation hero */
+    /* Plus rapide sur mobile pour ne pas faire attendre */
+    var isMobile = window.matchMedia('(hover: none), (pointer: coarse)').matches;
+    var delay = isMobile ? 40 : 80;
+    var startDelay = isMobile ? 300 : 600;
 
     function type() {
       if (i <= text.length) {
@@ -676,7 +690,8 @@
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
     if (window.matchMedia('(hover: none)').matches) return;
 
-    document.querySelectorAll('.project-card, .skill-group, .gsie-feature').forEach(function (card) {
+    /* gsie-pillar est le nom réel dans le HTML (gsie-feature = alias CSS) */
+    document.querySelectorAll('.project-card, .skill-group, .gsie-feature, .gsie-pillar').forEach(function (card) {
       card.addEventListener('mousemove', function (e) {
         var rect = card.getBoundingClientRect();
         var x = e.clientX - rect.left;
@@ -700,6 +715,7 @@
     var illus = document.querySelector('.gsie__illustration');
     if (!illus) return;
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    if (window.matchMedia('(hover: none), (pointer: coarse)').matches) return; /* inutile sur mobile */
 
     var line = document.createElement('div');
     line.style.cssText = [
