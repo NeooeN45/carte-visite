@@ -539,24 +539,34 @@ h1, h2, h3, h4 {
   justify-content: center;
   gap: var(--space-5);
 }
-.hero__links a {
+/* Style partagé : liens hero + bouton CV */
+.hero__links a,
+.hero__cv-link {
   display: inline-flex;
   align-items: center;
   gap: var(--space-2);
   font-size: var(--fs-sm);
-  color: var(--moss);
+  font-family: var(--font-body);
+  font-weight: 500;
+  color: rgba(255,255,255,0.92);
+  text-shadow: 0 1px 4px rgba(0,0,0,0.6);
   padding-block: var(--space-2);
   padding-inline: var(--space-3);
   min-height: 44px;
-  border: 1px solid transparent;
+  border: 1px solid rgba(255,255,255,0.35);
   border-radius: var(--radius-full);
+  background: rgba(255,255,255,0.12);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
   transition: color var(--t-fast) var(--ease), border-color var(--t-fast) var(--ease), background var(--t-fast) var(--ease), box-shadow var(--t-base) var(--ease);
+  text-decoration: none;
 }
-:root[data-theme="light"] .hero__links a {
-  color: #1a3a24;
-  background: rgba(255,255,255,0.35);
-  border-color: rgba(255,255,255,0.5);
-  backdrop-filter: blur(4px);
+.hero__links a:hover, .hero__links a:focus-visible,
+.hero__cv-link:hover, .hero__cv-link:focus-visible {
+  color: #ffffff;
+  border-color: rgba(255,255,255,0.7);
+  background: rgba(255,255,255,0.22);
+  box-shadow: 0 0 16px rgba(255,255,255,0.15);
 }
 .hero__links a:hover, .hero__links a:focus-visible {
   color: var(--canopy);

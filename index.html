@@ -12,10 +12,15 @@
   <script>
     try {
       var s = localStorage.getItem('theme');
-      /* Par défaut : thème clair sauf si l'utilisateur a explicitement choisi le sombre */
       if (s !== 'dark') document.documentElement.setAttribute('data-theme', 'light');
     } catch(e) { document.documentElement.setAttribute('data-theme', 'light'); }
+    /* Masque le contenu hero jusqu'au chargement — évite le flash de texte non stylé */
+    document.documentElement.classList.add('hero-loading');
   </script>
+  <style>
+    .hero-loading .hero__inner { opacity: 0; }
+    .hero-ready .hero__inner   { opacity: 1; transition: opacity 0.4s ease; }
+  </style>
 
   <link rel="canonical" href="https://neooen45.github.io/carte-visite/">
 
@@ -180,7 +185,7 @@
             <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8Z"/><path d="M4 20c1.5-3.6 4.5-5.4 8-5.4s6.5 1.8 8 5.4"/><path d="M19 8v4M21 10h-4"/></svg>
             Ajouter aux contacts
           </button>
-          <a class="button button--ghost" href="/carte-visite/cv.pdf" download>
+          <a class="hero__cv-link" href="/carte-visite/cv.pdf" download>
             <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 3v12m0 0-4-4m4 4 4-4"/><path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg>
             Télécharger le CV
           </a>

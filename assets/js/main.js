@@ -579,6 +579,10 @@
 
   /* ============ Initialisation ============ */
   document.addEventListener('DOMContentLoaded', function () {
+    /* Révèle le contenu hero — supprime le masque anti-flash */
+    document.documentElement.classList.remove('hero-loading');
+    document.documentElement.classList.add('hero-ready');
+
     initTheme();
     initMobileNav();
     initSmoothScroll();
