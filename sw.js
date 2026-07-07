@@ -7,12 +7,12 @@
 const CACHE_VERSION = 'cp-carte-visite-v1';
 
 const APP_SHELL = [
-  '/',
-  '/index.html',
-  '/assets/css/style.css',
-  '/assets/js/main.js',
-  '/favicon.svg',
-  '/manifest.json'
+  '/carte-visite/',
+  '/carte-visite/index.html',
+  '/carte-visite/assets/css/style.css',
+  '/carte-visite/assets/js/main.js',
+  '/carte-visite/favicon.svg',
+  '/carte-visite/manifest.json'
 ];
 
 self.addEventListener('install', (event) => {
