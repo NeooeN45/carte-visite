@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Camille Perraudeau — Technicien forestier &amp; Développeur SIG/IA</title>
+  <meta name="description" content="Technicien forestier diplômé (BTSA Gestion Forestière) et développeur autodidacte. Je conçois GeoSylva Intelligence Engine (GSIE), une plateforme SIG et IA pour la gestion forestière : cartographie, offline-first, réseau mesh LoRa.">
+  <meta name="author" content="Camille Perraudeau">
+  <meta name="robots" content="index, follow">
+  <meta name="color-scheme" content="dark light">
+  <meta name="theme-color" content="#0A0D0B">
+  <script>
+    // Applique le thème mémorisé avant le premier rendu, pour éviter un flash visuel.
+    try {
+      var saved = localStorage.getItem('theme');
+      if (saved === 'light' || (!saved && window.matchMedia('(prefers-color-scheme: light)').matches)) {
+        document.documentElement.setAttribute('data-theme', 'light');
+      }
+    } catch (e) { /* localStorage indisponible : le thème sombre par défaut s'applique */ }
+  </script>
+
+  <!-- À personnaliser : remplacez cette URL par l'adresse réelle de votre site une fois déployé -->
+  <link rel="canonical" href="https://camille-perraudeau.github.io/">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Camille Perraudeau">
+  <meta property="og:title" content="Camille Perraudeau — Technicien forestier & Développeur SIG/IA">
+  <meta property="og:description" content="Je conçois GeoSylva Intelligence Engine (GSIE) : cartographie SIG, IA et réseau mesh LoRa au service de la gestion forestière.">
+  <meta property="og:image" content="https://camille-perraudeau.github.io/assets/img/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:url" content="https://camille-perraudeau.github.io/">
+  <meta property="og:locale" content="fr_FR">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Camille Perraudeau — Technicien forestier & Développeur SIG/IA">
+  <meta name="twitter:description" content="Je conçois GeoSylva Intelligence Engine (GSIE) : cartographie SIG, IA et réseau mesh LoRa au service de la gestion forestière.">
+  <meta name="twitter:image" content="https://camille-perraudeau.github.io/assets/img/og-image.png">
+
+  <!-- Favicons & PWA -->
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="/favicon.ico" sizes="32x32">
+  <link rel="apple-touch-icon" href="/assets/icons/apple-touch-icon.png">
+  <link rel="manifest" href="/manifest.json">
+
+  <!-- Polices : préconnexion puis chargement (Manrope pour les titres, Inter pour le texte) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;700;800&family=Inter:wght@400;500;600&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;700;800&family=Inter:wght@400;500;600&display=swap">
+
+  <link rel="preload" as="style" href="/assets/css/style.css">
+  <link rel="stylesheet" href="/assets/css/style.css">
+</head>
+<body>
+
+  <a class="skip-link" href="#contenu-principal">Aller au contenu principal</a>
+
+  <!-- Source de vérité unique pour les données de contact (lue par le générateur de vCard) -->
+  <!-- À personnaliser : mettez à jour ces champs avec vos vraies coordonnées -->
+  <script type="application/json" id="contact-config">
+  {
+    "name": "Camille Perraudeau",
+    "firstName": "Camille",
+    "lastName": "Perraudeau",
+    "title": "Technicien forestier & Développeur SIG/IA",
+    "email": "contact@camille-perraudeau.fr",
+    "tel": "+33600000000",
+    "telDisplay": "06 00 00 00 00",
+    "url": "https://camille-perraudeau.github.io/",
+    "github": "camille-perraudeau",
+    "linkedin": "camille-perraudeau",
+    "instagram": "",
+    "region": "Poitiers, Nouvelle-Aquitaine"
+  }
+  </script>
+
+  <!-- Schema.org : Person -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "Camille Perraudeau",
+    "jobTitle": "Technicien forestier & Développeur SIG/IA",
+    "description": "Technicien forestier diplômé et développeur autodidacte, concepteur de GeoSylva Intelligence Engine (GSIE).",
+    "url": "https://camille-perraudeau.github.io/",
+    "sameAs": [
+      "https://github.com/camille-perraudeau",
+      "https://www.linkedin.com/in/camille-perraudeau"
+    ],
+    "knowsAbout": ["Gestion forestière", "Systèmes d'information géographique", "Intelligence artificielle", "Cartographie SIG", "Réseaux LoRa", "Développement logiciel"],
+    "address": {
+      "@type": "PostalAddress",
+      "addressRegion": "Nouvelle-Aquitaine",
+      "addressCountry": "FR"
+    }
+  }
+  </script>
+
+  <!-- Schema.org : WebSite -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "Camille Perraudeau — Carte de visite numérique",
+    "url": "https://camille-perraudeau.github.io/",
+    "inLanguage": "fr-FR"
+  }
+  </script>
+
+  <!-- ===================== EN-TÊTE / NAVIGATION ===================== -->
+  <header class="site-header" id="site-header">
+    <div class="container site-header__inner">
+      <a href="#hero" class="brand" aria-label="Camille Perraudeau — Retour en haut de page">
+        <span class="brand__mark" aria-hidden="true">CP</span>
+        <span class="brand__name">Camille Perraudeau</span>
+      </a>
+
+      <nav class="nav" id="nav" aria-label="Navigation principale">
+        <ul class="nav__list">
+          <li><a class="nav__link" href="#a-propos">À propos</a></li>
+          <li><a class="nav__link" href="#competences">Compétences</a></li>
+          <li><a class="nav__link" href="#projets">Projets</a></li>
+          <li><a class="nav__link" href="#gsie">GSIE</a></li>
+          <li><a class="nav__link" href="#cv">CV</a></li>
+          <li><a class="nav__link" href="#contact">Contact</a></li>
+        </ul>
+      </nav>
+
+      <div class="site-header__actions">
+        <button type="button" class="icon-button" id="theme-toggle" aria-pressed="false" aria-label="Activer le thème clair">
+          <svg class="icon icon--sun" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.6M12 18.9v2.6M4.6 4.6l1.9 1.9M17.5 17.5l1.9 1.9M2.5 12h2.6M18.9 12h2.6M4.6 19.4l1.9-1.9M17.5 6.5l1.9-1.9"/></svg>
+          <svg class="icon icon--moon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20.2 14.6A8.6 8.6 0 1 1 9.4 3.8a7 7 0 0 0 10.8 10.8Z"/></svg>
+        </button>
+
+        <button type="button" class="icon-button nav-toggle" id="nav-toggle" aria-expanded="false" aria-controls="mobile-nav" aria-label="Ouvrir le menu">
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <div class="mobile-nav" id="mobile-nav" data-open="false">
+      <ul class="mobile-nav__list">
+        <li><a href="#a-propos">À propos</a></li>
+        <li><a href="#competences">Compétences</a></li>
+        <li><a href="#projets">Projets</a></li>
+        <li><a href="#gsie">GSIE</a></li>
+        <li><a href="#cv">CV</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </div>
+  </header>
+
+  <main id="contenu-principal">
+
+    <!-- ===================== HERO ===================== -->
+    <section class="hero" id="hero" aria-labelledby="hero-title">
+      <div class="hero__backdrop" aria-hidden="true">
+        <svg class="hero__topo" viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid slice">
+          <g class="hero__topo-lines" fill="none" stroke-width="1">
+            <path d="M-50 620 C 150 560, 300 680, 500 600 S 900 520, 1250 640" />
+            <path d="M-50 680 C 200 630, 380 720, 560 660 S 950 590, 1250 700" />
+            <path d="M-50 540 C 180 500, 340 600, 540 520 S 880 460, 1250 560" />
+            <path d="M-50 460 C 220 420, 360 500, 580 440 S 900 400, 1250 480" />
+          </g>
+          <g class="hero__topo-nodes">
+            <circle cx="210" cy="565" r="3.5"/>
+            <circle cx="640" cy="480" r="3.5"/>
+            <circle cx="980" cy="560" r="3.5"/>
+          </g>
+        </svg>
+      </div>
+
+      <div class="container hero__inner">
+        <div class="hero__photo-wrap reveal">
+          <div class="hero__photo">
+            <!-- À personnaliser : remplacez cette source par votre photo professionnelle (carrée, 800×800 px minimum) -->
+            <img src="/assets/img/photo-camille.jpg" alt="Portrait de Camille Perraudeau" width="320" height="320" fetchpriority="high" onerror="this.closest('.hero__photo').dataset.fallback='true'">
+            <span class="hero__photo-fallback" aria-hidden="true">CP</span>
+          </div>
+        </div>
+
+        <p class="eyebrow reveal">Technicien forestier · Développeur SIG &amp; IA</p>
+        <h1 id="hero-title" class="hero__title reveal">Camille Perraudeau</h1>
+        <p class="hero__slogan reveal">
+          Je conçois les outils numériques de la gestion forestière de demain —
+          entre relevés de terrain, cartographie SIG et intelligence artificielle.
+        </p>
+
+        <div class="hero__actions reveal">
+          <button type="button" class="button button--primary" id="add-contact-btn">
+            <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8Z"/><path d="M4 20c1.5-3.6 4.5-5.4 8-5.4s6.5 1.8 8 5.4"/><path d="M19 8v4M21 10h-4"/></svg>
+            Ajouter aux contacts
+          </button>
+          <a class="button button--ghost" href="/cv.pdf" download>
+            <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 3v12m0 0-4-4m4 4 4-4"/><path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg>
+            Télécharger le CV
+          </a>
+        </div>
+
+        <ul class="hero__links reveal">
+          <li>
+            <a href="https://github.com/camille-perraudeau" target="_blank" rel="noopener noreferrer" aria-label="Profil GitHub de Camille Perraudeau (nouvel onglet)">
+              <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 2a10 10 0 0 0-3.16 19.49c.5.09.68-.22.68-.48v-1.7c-2.78.6-3.37-1.34-3.37-1.34-.46-1.15-1.11-1.46-1.11-1.46-.9-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.89 1.52 2.34 1.08 2.91.83.09-.65.35-1.08.63-1.33-2.22-.25-4.56-1.11-4.56-4.94 0-1.09.39-1.99 1.03-2.68-.1-.25-.45-1.28.1-2.66 0 0 .84-.27 2.75 1.02a9.6 9.6 0 0 1 5 0c1.91-1.29 2.75-1.02 2.75-1.02.55 1.38.2 2.41.1 2.66.64.7 1.03 1.59 1.03 2.68 0 3.84-2.34 4.68-4.57 4.93.36.31.68.92.68 1.85v2.74c0 .27.18.58.69.48A10 10 0 0 0 12 2Z"/></svg>
+              <span>GitHub</span>
+            </a>
+          </li>
+          <li>
+            <a href="https://www.linkedin.com/in/camille-perraudeau" target="_blank" rel="noopener noreferrer" aria-label="Profil LinkedIn de Camille Perraudeau (nouvel onglet)">
+              <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6.94 6.5a1.94 1.94 0 1 1 0-3.88 1.94 1.94 0 0 1 0 3.88ZM5 8.75h3.9V21H5V8.75Zm6.4 0h3.74v1.68h.05c.52-.98 1.8-2.02 3.7-2.02 3.95 0 4.68 2.6 4.68 5.98V21h-3.9v-5.63c0-1.34-.02-3.07-1.87-3.07-1.87 0-2.16 1.46-2.16 2.97V21h-3.9V8.75Z"/></svg>
+              <span>LinkedIn</span>
+            </a>
+          </li>
+          <li>
+            <a href="#contact">
+              <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M3 6h18v12H3z"/><path d="m3 6 9 7 9-7"/></svg>
+              <span>Contact</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ===================== À PROPOS ===================== -->
+    <section class="section" id="a-propos" aria-labelledby="about-title">
+      <div class="container section__inner">
+        <p class="eyebrow reveal">À propos</p>
+        <h2 id="about-title" class="section__title reveal">Formé sur le terrain, construit par la pratique</h2>
+
+        <div class="about__grid">
+          <div class="about__text reveal">
+            <p>
+              Diplômé d'un <strong>BTSA Gestion Forestière</strong>, j'ai passé plus de
+              <strong>31 semaines sur le terrain</strong> à l'Office National des Forêts :
+              cartographies réglementaires, enquête après incendie (RCCI), intervention réelle
+              lors d'un feu à Chizé. Ce temps passé en forêt façonne directement la façon dont
+              je conçois mes outils — ils doivent fonctionner là où le réseau ne passe pas,
+              sous la pluie, avec des gants.
+            </p>
+            <p>
+              En parallèle, je suis <strong>développeur autodidacte</strong>. Python, TypeScript,
+              Kotlin, systèmes embarqués et réseaux distribués : je construis
+              <strong>GeoSylva Intelligence Engine (GSIE)</strong>, une plateforme qui relie
+              données de terrain, cartographie SIG et intelligence artificielle. Depuis
+              août 2026, je poursuis ce travail de façon indépendante, avec l'objectif de
+              mettre ces outils au service des gestionnaires forestiers.
+            </p>
+            <p>
+              Je m'intéresse aussi de près à l'écologie fongique et aux mycorhizes —
+              notamment aux travaux de Marc-André Sélosse — une manière de garder un pied
+              dans la biologie du sol pendant que l'autre est dans le code.
+            </p>
+          </div>
+
+          <ul class="about__facts reveal" aria-label="Repères clés">
+            <li>
+              <span class="about__fact-value">31+</span>
+              <span class="about__fact-label">semaines de terrain à l'ONF</span>
+            </li>
+            <li>
+              <span class="about__fact-value">2026</span>
+              <span class="about__fact-label">BTSA Gestion Forestière, mention Assez Bien</span>
+            </li>
+            <li>
+              <span class="about__fact-value">GSIE</span>
+              <span class="about__fact-label">plateforme SIG &amp; IA en développement</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== COMPÉTENCES ===================== -->
+    <section class="section section--alt" id="competences" aria-labelledby="skills-title">
+      <div class="container section__inner">
+        <p class="eyebrow reveal">Compétences</p>
+        <h2 id="skills-title" class="section__title reveal">Une double culture terrain / code</h2>
+
+        <div class="skills__grid">
+          <div class="skill-group reveal">
+            <h3>Langages &amp; frameworks</h3>
+            <ul class="skill-group__list">
+              <li>Python</li><li>TypeScript</li><li>JavaScript</li><li>Kotlin</li>
+              <li>Java</li><li>FastAPI</li><li>HTML5</li><li>CSS3</li>
+            </ul>
+          </div>
+          <div class="skill-group reveal">
+            <h3>Systèmes &amp; infrastructure</h3>
+            <ul class="skill-group__list">
+              <li>Linux</li><li>Docker</li><li>Git</li><li>Android</li><li>Bash</li>
+            </ul>
+          </div>
+          <div class="skill-group reveal">
+            <h3>SIG &amp; terrain</h3>
+            <ul class="skill-group__list">
+              <li>QGIS</li><li>Cartographie réglementaire</li><li>Cubage forestier</li>
+            </ul>
+          </div>
+          <div class="skill-group reveal">
+            <h3>IoT &amp; réseaux distribués</h3>
+            <ul class="skill-group__list">
+              <li>Arduino</li><li>LoRa</li><li>Meshtastic</li><li>Systèmes distribués</li>
+            </ul>
+          </div>
+          <div class="skill-group reveal">
+            <h3>Intelligence artificielle</h3>
+            <ul class="skill-group__list">
+              <li>Machine Learning</li><li>Analyse de données</li><li>Automatisation</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== PROJETS ===================== -->
+    <section class="section" id="projets" aria-labelledby="projects-title">
+      <div class="container section__inner">
+        <p class="eyebrow reveal">Projets</p>
+        <h2 id="projects-title" class="section__title reveal">Ce que je construis</h2>
+
+        <div class="projects__grid">
+          <article class="project-card project-card--featured reveal">
+            <span class="project-card__badge">Projet principal</span>
+            <h3>GeoSylva Intelligence Engine (GSIE)</h3>
+            <p>
+              Plateforme de collecte, d'analyse et de synchronisation intelligente des
+              données forestières. Cartographie SIG, IA embarquée, fonctionnement
+              offline-first et réseau mesh LoRa pour rester opérationnel là où le réseau
+              cellulaire s'arrête.
+            </p>
+            <ul class="project-card__tags" aria-label="Technologies utilisées">
+              <li>Kotlin</li><li>Python</li><li>MapLibre</li><li>Room / SQLCipher</li><li>LoRa · Meshtastic</li>
+            </ul>
+            <div class="project-card__links">
+              <a href="#gsie">Découvrir le projet →</a>
+              <a href="https://github.com/camille-perraudeau" target="_blank" rel="noopener noreferrer">Voir sur GitHub</a>
+            </div>
+          </article>
+
+          <!-- À personnaliser : complétez la description, les technologies et le lien GitHub de ShieldCall -->
+          <article class="project-card reveal">
+            <h3>ShieldCall</h3>
+            <p class="project-card__placeholder">
+              Second projet en cours de développement. Remplacez ce texte par une
+              description, la liste des technologies utilisées et un lien vers le dépôt
+              GitHub correspondant.
+            </p>
+            <ul class="project-card__tags" aria-label="Technologies utilisées">
+              <li>À compléter</li>
+            </ul>
+            <div class="project-card__links">
+              <a href="https://github.com/camille-perraudeau" target="_blank" rel="noopener noreferrer">Voir sur GitHub</a>
+            </div>
+          </article>
+        </div>
+
+        <!-- Dépôts GitHub récents, chargés dynamiquement -->
+        <div class="repos" id="repos-section">
+          <h3 class="repos__title">Derniers dépôts GitHub</h3>
+          <div class="repos__grid" id="repos-grid" aria-live="polite">
+            <p class="repos__status" id="repos-status">Chargement des dépôts…</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== GSIE ===================== -->
+    <section class="section section--alt gsie" id="gsie" aria-labelledby="gsie-title">
+      <div class="container section__inner">
+        <p class="eyebrow reveal">Projet principal</p>
+        <h2 id="gsie-title" class="section__title reveal">GeoSylva Intelligence Engine</h2>
+        <p class="gsie__lead reveal">
+          Une plateforme scientifique pensée pour la réalité du terrain forestier —
+          collecte, analyse et synchronisation des données, sans dépendre d'un réseau
+          toujours disponible.
+        </p>
+
+        <div class="gsie__layout">
+          <div class="gsie__pillars">
+            <div class="gsie-pillar reveal">
+              <h3>Vision</h3>
+              <p>Relier données de terrain, cartographie SIG et intelligence artificielle dans un seul système cohérent, pensé pour les gestionnaires forestiers autant que pour les chercheurs.</p>
+            </div>
+            <div class="gsie-pillar reveal">
+              <h3>Offline-first</h3>
+              <p>Chaque relevé est stocké localement (Room, chiffrement SQLCipher) et synchronisé dès que la connexion revient. Le terrain n'attend jamais le réseau.</p>
+            </div>
+            <div class="gsie-pillar reveal">
+              <h3>Cartographie SIG</h3>
+              <p>Rendu cartographique via MapLibre, cartographies réglementaires, sept méthodes de cubage forestier et export au format IBP CNPF.</p>
+            </div>
+            <div class="gsie-pillar reveal">
+              <h3>Intelligence artificielle</h3>
+              <p>Des modules d'aide à la décision, actuellement en phase de spécification, pensés pour s'appuyer directement sur les données collectées sur le terrain.</p>
+            </div>
+            <div class="gsie-pillar reveal">
+              <h3>Réseau mesh</h3>
+              <p>Un réseau LoRa / Meshtastic pour faire circuler l'information entre équipes, y compris dans les zones sans couverture cellulaire — le cas courant en forêt.</p>
+            </div>
+            <div class="gsie-pillar reveal">
+              <h3>Architecture</h3>
+              <p>Deux moteurs, GSIE-Mobile et GSIE-Desktop, construits en Clean Architecture pour rester maintenables sur la durée.</p>
+            </div>
+          </div>
+
+          <figure class="gsie__illustration reveal" aria-label="Illustration : carte topographique reliée par un réseau maillé de capteurs">
+            <svg viewBox="0 0 480 480" role="img" aria-labelledby="gsie-illu-title">
+              <title id="gsie-illu-title">Carte topographique reliée par un réseau maillé de capteurs</title>
+              <defs>
+                <linearGradient id="gsieGrad" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0%" stop-color="var(--canopy)"/>
+                  <stop offset="100%" stop-color="var(--dusk)"/>
+                </linearGradient>
+              </defs>
+              <g class="gsie-illu__contours" fill="none" stroke-width="1.4">
+                <path d="M20 380 C 90 340, 150 400, 220 350 S 360 300, 460 360"/>
+                <path d="M10 320 C 100 280, 190 330, 260 280 S 400 230, 470 290"/>
+                <path d="M0 260 C 110 220, 200 260, 290 210 S 420 170, 480 220"/>
+                <path d="M30 200 C 120 160, 220 190, 300 140 S 430 110, 470 150"/>
+              </g>
+              <g class="gsie-illu__links" stroke="url(#gsieGrad)" stroke-width="1.2">
+                <line x1="120" y1="330" x2="230" y2="250"/>
+                <line x1="230" y1="250" x2="340" y2="290"/>
+                <line x1="230" y1="250" x2="290" y2="150"/>
+                <line x1="340" y1="290" x2="410" y2="200"/>
+                <line x1="290" y1="150" x2="410" y2="200"/>
+              </g>
+              <g class="gsie-illu__nodes" fill="url(#gsieGrad)">
+                <circle class="pulse" cx="120" cy="330" r="6"/>
+                <circle class="pulse pulse--delay-1" cx="230" cy="250" r="8"/>
+                <circle class="pulse pulse--delay-2" cx="340" cy="290" r="6"/>
+                <circle class="pulse" cx="290" cy="150" r="6"/>
+                <circle class="pulse pulse--delay-1" cx="410" cy="200" r="6"/>
+              </g>
+            </svg>
+          </figure>
+        </div>
+
+        <div class="gsie__timeline reveal">
+          <h3 class="gsie__timeline-title">Progression du projet</h3>
+          <ol class="timeline">
+            <li class="timeline__item">
+              <span class="timeline__marker" aria-hidden="true"></span>
+              <div>
+                <p class="timeline__heading">GeoSylva (application mobile) — v1.7.0</p>
+                <p>Clean Architecture, Room/SQLCipher, MapLibre, sept méthodes de cubage, export IBP CNPF.</p>
+              </div>
+            </li>
+            <li class="timeline__item">
+              <span class="timeline__marker" aria-hidden="true"></span>
+              <div>
+                <p class="timeline__heading">QGISIA2</p>
+                <p>Plugin QGIS multi-agents (TypeScript/Python), serveur MCP, passerelle LiteLLM.</p>
+              </div>
+            </li>
+            <li class="timeline__item">
+              <span class="timeline__marker" aria-hidden="true"></span>
+              <div>
+                <p class="timeline__heading">SylvIA</p>
+                <p>Pipeline Machine Learning (Random Forest, XGBoost) et RAG — en phase de spécification.</p>
+              </div>
+            </li>
+            <li class="timeline__item timeline__item--current">
+              <span class="timeline__marker" aria-hidden="true"></span>
+              <div>
+                <p class="timeline__heading">GSIE Master Implementation Guide — v0.5.0</p>
+                <p>Architecture cible : GSIE-Mobile, GSIE-Desktop, mode SAM à trois niveaux. En cours.</p>
+              </div>
+            </li>
+          </ol>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== CV ===================== -->
+    <section class="section" id="cv" aria-labelledby="cv-title">
+      <div class="container section__inner">
+        <p class="eyebrow reveal">Parcours</p>
+        <h2 id="cv-title" class="section__title reveal">CV</h2>
+        <p class="cv__lead reveal">
+          Un parcours construit sur le terrain, avec l'Office National des Forêts comme
+          premier terrain d'application concret.
+        </p>
+
+        <ol class="timeline reveal">
+          <li class="timeline__item">
+            <span class="timeline__marker" aria-hidden="true"></span>
+            <div>
+              <p class="timeline__heading">BTSA Gestion Forestière — mention Assez Bien (2026)</p>
+              <p>Formation technique complète : sylviculture, cartographie, gestion des peuplements, réglementation forestière.</p>
+            </div>
+          </li>
+          <li class="timeline__item">
+            <span class="timeline__marker" aria-hidden="true"></span>
+            <div>
+              <p class="timeline__heading">Stage terrain — Office National des Forêts</p>
+              <p>Plus de 31 semaines, UT Charente Sud–Deux-Sèvres : cartographies réglementaires, enquête RCCI, intervention réelle lors d'un feu à Chizé, proposition d'un dispositif de surveillance drone/IA.</p>
+            </div>
+          </li>
+          <li class="timeline__item">
+            <span class="timeline__marker" aria-hidden="true"></span>
+            <div>
+              <p class="timeline__heading">Référent numérique</p>
+              <p>Accompagnement des équipes sur les outils SIG et numériques au quotidien.</p>
+            </div>
+          </li>
+          <li class="timeline__item timeline__item--current">
+            <span class="timeline__marker" aria-hidden="true"></span>
+            <div>
+              <p class="timeline__heading">Activité indépendante — Poitiers (août 2026)</p>
+              <p>Micro-entreprise spécialisée dans les logiciels de données forestières.</p>
+            </div>
+          </li>
+        </ol>
+
+        <a class="button button--primary reveal" href="/cv.pdf" download>
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 3v12m0 0-4-4m4 4 4-4"/><path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg>
+          Télécharger le CV complet (PDF)
+        </a>
+      </div>
+    </section>
+
+    <!-- ===================== CONTACT ===================== -->
+    <section class="section section--alt" id="contact" aria-labelledby="contact-title">
+      <div class="container section__inner">
+        <p class="eyebrow reveal">Contact</p>
+        <h2 id="contact-title" class="section__title reveal">Discutons de votre projet</h2>
+        <p class="contact__lead reveal">
+          Que vous représentiez l'ONF, un bureau d'étude, une collectivité ou que vous
+          développiez vous-même des outils pour la forêt, je suis à l'écoute.
+        </p>
+
+        <div class="contact__layout">
+          <ul class="contact__list reveal">
+            <li>
+              <a href="mailto:contact@camille-perraudeau.fr">
+                <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M3 6h18v12H3z"/><path d="m3 6 9 7 9-7"/></svg>
+                <span>contact@camille-perraudeau.fr</span>
+              </a>
+            </li>
+            <li>
+              <a href="tel:+33600000000">
+                <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6.6 10.8a15.3 15.3 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 10.9 10.9 0 0 0 3.4.55 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1 10.9 10.9 0 0 0 .55 3.4 1 1 0 0 1-.25 1L6.6 10.8Z"/></svg>
+                <span>06 00 00 00 00</span>
+              </a>
+            </li>
+            <li>
+              <a href="https://github.com/camille-perraudeau" target="_blank" rel="noopener noreferrer">
+                <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 2a10 10 0 0 0-3.16 19.49c.5.09.68-.22.68-.48v-1.7c-2.78.6-3.37-1.34-3.37-1.34-.46-1.15-1.11-1.46-1.11-1.46-.9-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.89 1.52 2.34 1.08 2.91.83.09-.65.35-1.08.63-1.33-2.22-.25-4.56-1.11-4.56-4.94 0-1.09.39-1.99 1.03-2.68-.1-.25-.45-1.28.1-2.66 0 0 .84-.27 2.75 1.02a9.6 9.6 0 0 1 5 0c1.91-1.29 2.75-1.02 2.75-1.02.55 1.38.2 2.41.1 2.66.64.7 1.03 1.59 1.03 2.68 0 3.84-2.34 4.68-4.57 4.93.36.31.68.92.68 1.85v2.74c0 .27.18.58.69.48A10 10 0 0 0 12 2Z"/></svg>
+                <span>github.com/camille-perraudeau</span>
+              </a>
+            </li>
+            <li>
+              <a href="https://www.linkedin.com/in/camille-perraudeau" target="_blank" rel="noopener noreferrer">
+                <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6.94 6.5a1.94 1.94 0 1 1 0-3.88 1.94 1.94 0 0 1 0 3.88ZM5 8.75h3.9V21H5V8.75Zm6.4 0h3.74v1.68h.05c.52-.98 1.8-2.02 3.7-2.02 3.95 0 4.68 2.6 4.68 5.98V21h-3.9v-5.63c0-1.34-.02-3.07-1.87-3.07-1.87 0-2.16 1.46-2.16 2.97V21h-3.9V8.75Z"/></svg>
+                <span>linkedin.com/in/camille-perraudeau</span>
+              </a>
+            </li>
+            <!-- Optionnel : supprimez ce bloc si vous ne souhaitez pas afficher Instagram -->
+            <li>
+              <a href="https://instagram.com/" target="_blank" rel="noopener noreferrer">
+                <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="3.5" y="3.5" width="17" height="17" rx="4.5"/><circle cx="12" cy="12" r="3.8"/><circle cx="17.2" cy="6.8" r="1"/></svg>
+                <span>Instagram (optionnel)</span>
+              </a>
+            </li>
+          </ul>
+
+          <div class="contact__side reveal">
+            <button type="button" class="button button--primary" id="add-contact-btn-2">
+              <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8Z"/><path d="M4 20c1.5-3.6 4.5-5.4 8-5.4s6.5 1.8 8 5.4"/><path d="M19 8v4M21 10h-4"/></svg>
+              Ajouter aux contacts
+            </button>
+
+            <button type="button" class="button button--ghost" id="share-btn">
+              <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="18" cy="5" r="2.5"/><circle cx="6" cy="12" r="2.5"/><circle cx="18" cy="19" r="2.5"/><path d="m8.2 10.7 7.6-4.4M8.2 13.3l7.6 4.4"/></svg>
+              Partager cette carte
+            </button>
+
+            <button type="button" class="button button--ghost" id="qr-btn" aria-expanded="false" aria-controls="qr-box">
+              <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><path d="M14 14h3v3h-3zM20 14v3M14 20h3M20 20v.01"/></svg>
+              Afficher le QR code
+            </button>
+            <div class="qr-box" id="qr-box" hidden>
+              <div id="qr-canvas"></div>
+              <p>Scannez pour ouvrir cette carte sur un autre appareil.</p>
+            </div>
+
+            <div class="contact__map">
+              <iframe
+                title="Localisation approximative — région de Poitiers, Nouvelle-Aquitaine"
+                loading="lazy"
+                referrerpolicy="no-referrer-when-downgrade"
+                src="https://www.openstreetmap.org/export/embed.html?bbox=-0.45%2C46.45%2C0.55%2C46.85&amp;layer=mapnik">
+              </iframe>
+              <p class="contact__map-caption">Basé dans la région de Poitiers, Nouvelle-Aquitaine — déplacements possibles.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ===================== FOOTER ===================== -->
+  <footer class="site-footer">
+    <div class="container site-footer__inner">
+      <p>© <span id="current-year">2026</span> Camille Perraudeau</p>
+      <a href="https://github.com/camille-perraudeau" target="_blank" rel="noopener noreferrer">GitHub</a>
+      <a href="#hero">Retour en haut ↑</a>
+    </div>
+  </footer>
+
+  <script src="/assets/js/main.js" defer></script>
+</body>
+</html>
