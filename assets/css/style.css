@@ -141,6 +141,7 @@ body {
 /* Curseur custom uniquement sur desktop pointer */
 @media (hover: hover) and (pointer: fine) {
   body { cursor: none; }
+  button { cursor: none; }
 }
 
 img, svg { display: block; max-width: 100%; }
@@ -153,11 +154,12 @@ button {
   color: inherit;
   background: none;
   border: none;
-  cursor: pointer; /* always pointer — overridden to none only on desktop */
+  cursor: pointer;
 }
 
-@media (hover: hover) and (pointer: fine) {
-  button { cursor: none; }
+/* Curseur natif sur touch/mobile */
+@media (hover: none), (pointer: coarse) {
+  body, button, a { cursor: auto; }
 }
 
 input, textarea { font: inherit; }
@@ -176,23 +178,13 @@ h1, h2, h3, h4 {
     transition-duration: 0.001ms !important;
     scroll-behavior: auto !important;
   }
-  body { cursor: auto; }
-  button { cursor: pointer; }
-  .cursor, .cursor-ring { display: none; }
-}
-
-/* Désactiver le curseur custom + animations lourdes sur mobile/touch */
-@media (hover: none), (pointer: coarse) {
-  .cursor, .cursor-ring { display: none !important; }
-  body, button, a { cursor: auto; }
 }
 
 /* -------------------- 3. Curseur custom -------------------- */
-/* top/left à 0 — position réelle via transform en JS (GPU, zéro reflow) */
 .cursor {
   position: fixed;
   top: 0; left: 0;
-  width: 12px; height: 12px;
+  width: 10px; height: 10px;
   background: var(--canopy);
   border-radius: 50%;
   pointer-events: none;
@@ -200,13 +192,11 @@ h1, h2, h3, h4 {
   will-change: transform;
   transition: opacity 200ms;
   mix-blend-mode: screen;
-  box-shadow: 0 0 8px 3px var(--canopy-glow);
 }
-
 .cursor-ring {
   position: fixed;
   top: 0; left: 0;
-  width: 36px; height: 36px;
+  width: 32px; height: 32px;
   border: 1.5px solid var(--canopy);
   border-radius: 50%;
   pointer-events: none;
@@ -215,19 +205,15 @@ h1, h2, h3, h4 {
   transition: opacity 200ms, border-color 200ms;
   opacity: 0.6;
 }
-
 body:has(a:hover) .cursor,
-body:has(button:hover) .cursor {
-  width: 20px; height: 20px;
-  background: var(--dusk);
-  box-shadow: 0 0 20px 6px var(--dusk-glow);
-}
+body:has(button:hover) .cursor { background: var(--dusk); }
 body:has(a:hover) .cursor-ring,
-body:has(button:hover) .cursor-ring {
-  width: 54px; height: 54px;
-  border-color: var(--dusk);
-  opacity: 0.35;
-}
+body:has(button:hover) .cursor-ring { border-color: var(--dusk); opacity: 0.3; }
+
+/* #theme-toggle icônes */
+#theme-toggle .icon--moon { display: none; }
+:root[data-theme="light"] #theme-toggle .icon--sun  { display: none; }
+:root[data-theme="light"] #theme-toggle .icon--moon { display: block; }
 
 /* -------------------- 4. Typographie & utilitaires -------------------- */
 .container {

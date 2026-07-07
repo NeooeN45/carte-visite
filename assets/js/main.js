@@ -142,12 +142,36 @@
 
     var mouseX = -100, mouseY = -100;
     var ringX = -100, ringY = -100;
+    var rafId = null;
 
-    /* transform uniquement — aucun reflow, compositing GPU */
+    /* Démarre la boucle RAF uniquement si elle n'est pas déjà en cours */
+    function startRingLoop() {
+      if (rafId !== null) return;
+      rafId = requestAnimationFrame(animateRing);
+    }
+
+    /* Ring suit avec inertie — s'arrête quand il est suffisamment proche */
+    function animateRing() {
+      var dx = mouseX - ringX;
+      var dy = mouseY - ringY;
+      ringX += dx * 0.12;
+      ringY += dy * 0.12;
+      ring.style.transform = 'translate(' + ringX + 'px,' + ringY + 'px) translate(-50%,-50%)';
+
+      /* Arrête la boucle quand le ring est à moins de 0.5px — évite de tourner à vide */
+      if (Math.abs(dx) < 0.5 && Math.abs(dy) < 0.5) {
+        rafId = null;
+        return;
+      }
+      rafId = requestAnimationFrame(animateRing);
+    }
+
+    /* transform uniquement — aucun reflow, démarre la boucle à chaque mouvement */
     document.addEventListener('mousemove', function (e) {
       mouseX = e.clientX;
       mouseY = e.clientY;
       cursor.style.transform = 'translate(' + mouseX + 'px,' + mouseY + 'px) translate(-50%,-50%)';
+      startRingLoop();
     }, { passive: true });
 
     document.addEventListener('mouseleave', function () {
@@ -159,22 +183,10 @@
       ring.style.opacity = '0.6';
     });
 
-    /* Ring suit avec inertie — transform uniquement */
-    function animateRing() {
-      ringX += (mouseX - ringX) * 0.12;
-      ringY += (mouseY - ringY) * 0.12;
-      ring.style.transform = 'translate(' + ringX + 'px,' + ringY + 'px) translate(-50%,-50%)';
-      requestAnimationFrame(animateRing);
-    }
-    animateRing();
-
-    /* Effet clic — scale seul, centrage déjà dans le transform ci-dessus */
     document.addEventListener('mousedown', function () {
-      cursor.dataset.click = '1';
       cursor.style.transform = 'translate(' + mouseX + 'px,' + mouseY + 'px) translate(-50%,-50%) scale(0.7)';
     });
     document.addEventListener('mouseup', function () {
-      cursor.dataset.click = '';
       cursor.style.transform = 'translate(' + mouseX + 'px,' + mouseY + 'px) translate(-50%,-50%) scale(1)';
     });
   }
