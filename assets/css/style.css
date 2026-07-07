@@ -24,33 +24,33 @@
 
 /* -------------------- 1. Design tokens -------------------- */
 :root {
-  /* Palette néon/cyber sur fond noir profond */
-  --ink:            #050709;
-  --ink-raised:      #0C0F12;
-  --ink-raised-2:    #131820;
-  --line:           rgba(0, 255, 180, 0.07);
-  --line-strong:    rgba(0, 255, 180, 0.18);
+  /* Palette forêt — tons naturels, professionnels */
+  --ink:            #0A0E0B;
+  --ink-raised:      #101610;
+  --ink-raised-2:    #182018;
+  --line:           rgba(80, 160, 100, 0.10);
+  --line-strong:    rgba(80, 160, 100, 0.22);
 
-  --mist:           #E8F0FF;
-  --moss:           #7A8FA8;
-  --moss-dim:       #4A5A6E;
+  --mist:           #E6EDE8;
+  --moss:           #8AA898;
+  --moss-dim:       #4E6557;
 
-  /* Néon cyan — accent primaire */
-  --canopy:         #00FFB4;
-  --canopy-strong:  #00FFB4;
-  --canopy-dim:     rgba(0, 255, 180, 0.15);
-  --canopy-glow:    rgba(0, 255, 180, 0.35);
+  /* Vert forêt — accent primaire */
+  --canopy:         #5DB87A;
+  --canopy-strong:  #4AA366;
+  --canopy-dim:     rgba(93, 184, 122, 0.12);
+  --canopy-glow:    rgba(93, 184, 122, 0.22);
 
-  /* Violet/magenta — accent secondaire */
-  --dusk:           #BD5FFF;
-  --dusk-strong:    #D18AFF;
-  --dusk-glow:      rgba(189, 95, 255, 0.35);
+  /* Or automnal — accent secondaire (sobre, lumière en sous-bois) */
+  --dusk:           #C9A84C;
+  --dusk-strong:    #B8963E;
+  --dusk-glow:      rgba(201, 168, 76, 0.22);
 
-  /* Orange électrique — accent tertiaire */
-  --spark:          #FF6B35;
-  --spark-glow:     rgba(255, 107, 53, 0.3);
+  /* Terre ocre — accent tertiaire */
+  --spark:          #B06B40;
+  --spark-glow:     rgba(176, 107, 64, 0.22);
 
-  --danger:         #FF4A6E;
+  --danger:         #C94A4A;
 
   /* Typographie */
   --font-display: 'Manrope', 'Inter', system-ui, sans-serif;
@@ -95,24 +95,24 @@
 
 /* Thème clair */
 :root[data-theme="light"] {
-  --ink:            #F0F4F8;
+  --ink:            #F2F5F0;
   --ink-raised:      #FFFFFF;
-  --ink-raised-2:    #E4EAF2;
-  --line:           rgba(0, 180, 130, 0.12);
-  --line-strong:    rgba(0, 180, 130, 0.28);
+  --ink-raised-2:    #E8EDE6;
+  --line:           rgba(60, 120, 80, 0.12);
+  --line-strong:    rgba(60, 120, 80, 0.26);
 
-  --mist:           #0D1117;
-  --moss:           #3A5068;
-  --moss-dim:       #7A8FA8;
+  --mist:           #0F1A12;
+  --moss:           #3A5A46;
+  --moss-dim:       #7A9880;
 
-  --canopy:         #00A878;
-  --canopy-strong:  #007A58;
-  --canopy-dim:     rgba(0, 168, 120, 0.12);
-  --canopy-glow:    rgba(0, 168, 120, 0.2);
+  --canopy:         #3A8F56;
+  --canopy-strong:  #2A7040;
+  --canopy-dim:     rgba(58, 143, 86, 0.12);
+  --canopy-glow:    rgba(58, 143, 86, 0.18);
 
-  --dusk:           #8B3FCC;
-  --dusk-strong:    #6A2FA0;
-  --dusk-glow:      rgba(139, 63, 204, 0.2);
+  --dusk:           #8A7240;
+  --dusk-strong:    #6E5B32;
+  --dusk-glow:      rgba(138, 114, 64, 0.18);
 
   color-scheme: light;
 }
@@ -466,90 +466,39 @@ body:has(button:hover) .cursor-ring {
   justify-content: center;
 }
 
-/* Canvas particules — fond plein écran */
-#hero-canvas {
+/* Vidéo de fond plein écran */
+.hero__video {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
+  object-fit: cover;
+  object-position: center;
   z-index: 0;
+  /* légère désaturation pour garder un rendu sobre */
+  filter: saturate(0.75) brightness(0.7);
 }
 
-/* Aurora CSS animée — couche derrière les particules */
-.hero__aurora {
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  overflow: hidden;
-}
-.hero__aurora::before,
-.hero__aurora::after,
-.hero__aurora .aurora-3 {
-  content: '';
-  position: absolute;
-  border-radius: 50%;
-  filter: blur(80px);
-  opacity: 0;
-  animation: aurora-fade 1.2s var(--ease) forwards;
-}
-.hero__aurora::before {
-  width: 70vw; height: 60vh;
-  top: -20%; left: -10%;
-  background: radial-gradient(ellipse, rgba(0, 255, 180, 0.12) 0%, transparent 70%);
-  animation-name: aurora-drift-1, aurora-fade;
-  animation-duration: 18s, 1.2s;
-  animation-timing-function: ease-in-out, var(--ease);
-  animation-iteration-count: infinite, 1;
-  animation-fill-mode: normal, forwards;
-  animation-delay: 0s, 0s;
-}
-.hero__aurora::after {
-  width: 60vw; height: 70vh;
-  bottom: -15%; right: -5%;
-  background: radial-gradient(ellipse, rgba(189, 95, 255, 0.10) 0%, transparent 70%);
-  animation-name: aurora-drift-2, aurora-fade;
-  animation-duration: 22s, 1.2s;
-  animation-timing-function: ease-in-out, var(--ease);
-  animation-iteration-count: infinite, 1;
-  animation-fill-mode: normal, forwards;
-  animation-delay: 0s, 0.3s;
-}
-.hero__aurora .aurora-3 {
-  width: 50vw; height: 50vh;
-  top: 30%; left: 25%;
-  background: radial-gradient(ellipse, rgba(255, 107, 53, 0.06) 0%, transparent 70%);
-  animation-name: aurora-drift-3, aurora-fade;
-  animation-duration: 26s, 1.2s;
-  animation-timing-function: ease-in-out, var(--ease);
-  animation-iteration-count: infinite, 1;
-  animation-fill-mode: normal, forwards;
-  animation-delay: 0s, 0.6s;
-}
-
-/* Backdrop SVG topographique existant — upgradé */
-.hero__backdrop {
+/* Overlay glassmorphism + flou — pose sur la vidéo */
+.hero__glass {
   position: absolute;
   inset: 0;
   z-index: 1;
-  opacity: 0.25;
-  -webkit-mask-image: linear-gradient(to bottom, black 0%, black 55%, transparent 96%);
-          mask-image: linear-gradient(to bottom, black 0%, black 55%, transparent 96%);
+  background:
+    linear-gradient(
+      to bottom,
+      rgba(10, 14, 11, 0.30) 0%,
+      rgba(10, 14, 11, 0.20) 40%,
+      rgba(10, 14, 11, 0.55) 100%
+    );
+  -webkit-backdrop-filter: blur(2px);
+          backdrop-filter: blur(2px);
 }
-.hero__topo { width: 100%; height: 100%; }
-.hero__topo-lines path {
-  stroke: var(--canopy);
-  stroke-dasharray: 8 4;
-  animation: topo-draw 4s ease-in-out forwards;
-  stroke-dashoffset: 1000;
-}
-.hero__topo-nodes circle {
-  fill: var(--canopy);
-  opacity: 0;
-  animation: node-pulse 2s var(--ease) forwards;
-}
-.hero__topo-nodes circle:nth-child(1) { animation-delay: 0.8s; }
-.hero__topo-nodes circle:nth-child(2) { animation-delay: 1.2s; }
-.hero__topo-nodes circle:nth-child(3) { animation-delay: 1.6s; }
+
+/* Canvas, aurora, backdrop — désactivés (remplacés par la vidéo) */
+#hero-canvas { display: none; }
+.hero__aurora { display: none; }
+.hero__backdrop { display: none; }
 
 .hero__inner {
   position: relative;
@@ -568,11 +517,9 @@ body:has(button:hover) .cursor-ring {
   background: linear-gradient(135deg, var(--canopy), var(--dusk));
   padding: 3px;
   box-shadow:
-    0 0 0 1px var(--line),
-    0 0 30px var(--canopy-glow),
-    0 0 60px var(--dusk-glow),
-    0 20px 60px -20px rgba(0, 0, 0, 0.6);
-  animation: photo-glow 3s ease-in-out infinite alternate;
+    0 0 0 1px rgba(93, 184, 122, 0.30),
+    0 0 20px rgba(93, 184, 122, 0.15),
+    0 20px 60px -20px rgba(0, 0, 0, 0.7);
 }
 .hero__photo img {
   width: 100%; height: 100%;
@@ -620,11 +567,12 @@ body:has(button:hover) .cursor-ring {
 .hero__title {
   font-size: var(--fs-3xl);
   margin-bottom: var(--space-4);
-  background: linear-gradient(135deg, #FFFFFF 0%, var(--canopy) 50%, var(--dusk) 100%);
+  /* Dégradé naturel : blanc → vert forêt */
+  background: linear-gradient(135deg, #FFFFFF 0%, #A8D5B0 55%, var(--canopy) 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  filter: drop-shadow(0 0 20px var(--canopy-glow));
+  filter: drop-shadow(0 2px 12px rgba(0,0,0,0.6));
 }
 
 .hero__slogan {
@@ -942,22 +890,32 @@ body:has(button:hover) .cursor-ring {
 .repo-card__meta { display: flex; gap: var(--space-4); font-size: var(--fs-xs); color: var(--moss-dim); font-family: var(--font-mono); }
 
 /* -------------------- 12. GSIE -------------------- */
-/* aliases : HTML utilise gsie__layout/gsie__pillars/gsie-pillar */
+/* Layout 2 colonnes : pillars | illustration SVG animée */
 .gsie__inner,
 .gsie__layout {
   display: grid;
-  grid-template-columns: 1fr;
-  gap: var(--space-7);
+  grid-template-columns: 1fr;       /* mobile : 1 col */
+  gap: var(--space-8);
+  align-items: start;
 }
-.gsie__text { max-width: 60ch; }
-.gsie__text p { color: var(--moss); margin-bottom: var(--space-4); }
-.gsie__text strong { color: var(--mist); font-weight: 600; }
 
+@media (min-width: 900px) {
+  .gsie__inner,
+  .gsie__layout {
+    grid-template-columns: 1fr 1fr;  /* desktop : côte à côte */
+    align-items: start;
+  }
+}
+
+/* Bloc texte lead */
+.gsie__lead { color: var(--moss); font-size: var(--fs-md); line-height: 1.7; margin-bottom: var(--space-6); }
+
+/* Grille des pilliers */
 .gsie__features,
 .gsie__pillars {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: var(--space-4);
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-3);
 }
 .gsie-feature,
 .gsie-pillar {
@@ -968,41 +926,91 @@ body:has(button:hover) .cursor-ring {
   transition: border-color var(--t-fast), transform var(--t-base) var(--ease-spring), box-shadow var(--t-base);
 }
 .gsie-feature:hover,
-.gsie-pillar:hover { border-color: var(--canopy); transform: translateY(-3px); box-shadow: 0 6px 20px -6px var(--canopy-glow); }
-.gsie-feature__icon,
-.gsie-pillar__icon {
-  font-size: 1.6rem;
-  margin-bottom: var(--space-3);
-  filter: drop-shadow(0 0 8px var(--canopy-glow));
+.gsie-pillar:hover {
+  border-color: var(--canopy);
+  transform: translateY(-3px);
+  box-shadow: 0 6px 24px -6px var(--canopy-glow);
 }
-.gsie-feature h4,
-.gsie-pillar h4 { font-size: var(--fs-sm); color: var(--mist); margin-bottom: var(--space-2); }
+.gsie-feature h3,
+.gsie-pillar h3 {
+  font-size: var(--fs-sm);
+  color: var(--mist);
+  margin-bottom: var(--space-2);
+  font-weight: 600;
+}
 .gsie-feature p,
-.gsie-pillar p { font-size: var(--fs-xs); color: var(--moss); line-height: 1.5; }
+.gsie-pillar p { font-size: var(--fs-xs); color: var(--moss); line-height: 1.55; }
 
-/* Illustration SVG GSIE */
+/* Illustration SVG GSIE — carte topographique animée */
 .gsie__illustration {
   position: relative;
   background: var(--ink-raised);
   border: 1px solid var(--line);
   border-radius: var(--radius-lg);
   overflow: hidden;
-  aspect-ratio: 16/9;
-  box-shadow: 0 0 40px -10px var(--canopy-glow);
+  aspect-ratio: 1 / 1;             /* carré sur desktop */
+  box-shadow: 0 8px 40px -12px rgba(0,0,0,0.6), inset 0 1px 0 var(--line);
+  /* sticky pour qu'il reste visible en scrollant les pilliers */
+  position: sticky;
+  top: calc(72px + var(--space-5));
 }
-.gsie__svg { width: 100%; height: 100%; }
-.gsie__topo-lines path { stroke: rgba(0, 255, 180, 0.12); fill: none; }
+
+/* Lignes de contour topographiques */
+.gsie-illu__contours path {
+  stroke: rgba(93, 184, 122, 0.18);
+  fill: none;
+  stroke-dasharray: 6 4;
+  animation: gsie-contour-draw 5s ease-in-out forwards;
+  stroke-dashoffset: 800;
+}
+.gsie-illu__contours path:nth-child(2) { animation-delay: 0.4s; stroke: rgba(93, 184, 122, 0.12); }
+.gsie-illu__contours path:nth-child(3) { animation-delay: 0.8s; stroke: rgba(201, 168, 76, 0.12); }
+.gsie-illu__contours path:nth-child(4) { animation-delay: 1.2s; stroke: rgba(93, 184, 122, 0.10); }
+
+/* Liens réseau */
+.gsie-illu__links line {
+  stroke: rgba(93, 184, 122, 0.22);
+  stroke-dasharray: 5 3;
+  animation: gsie-link-pulse 3s linear infinite;
+}
+.gsie-illu__links line:nth-child(2) { animation-delay: 0.6s; stroke: rgba(201, 168, 76, 0.18); }
+.gsie-illu__links line:nth-child(3) { animation-delay: 1.2s; }
+.gsie-illu__links line:nth-child(4) { animation-delay: 1.8s; }
+.gsie-illu__links line:nth-child(5) { animation-delay: 2.4s; stroke: rgba(201, 168, 76, 0.18); }
+
+/* Noeuds capteurs */
+.gsie-illu__nodes circle {
+  fill: var(--canopy);
+  opacity: 0;
+  animation: gsie-node-appear 0.6s var(--ease) forwards, gsie-node-pulse 2.4s ease-in-out infinite 0.8s;
+}
+.gsie-illu__nodes circle.pulse--delay-1 { animation-delay: 0.5s, 1.3s; }
+.gsie-illu__nodes circle.pulse--delay-2 { animation-delay: 1.0s, 1.8s; fill: var(--dusk); }
+.gsie-illu__nodes circle.pulse--delay-3 { animation-delay: 1.5s, 2.3s; }
+.gsie-illu__nodes circle.pulse--delay-4 { animation-delay: 2.0s, 2.8s; fill: var(--dusk); }
+
+/* Ancien sélecteur .gsie__nodes (compatibilité) */
 .gsie__nodes circle {
   fill: var(--canopy);
-  filter: drop-shadow(0 0 4px var(--canopy));
-  animation: gsie-pulse 2.4s ease-in-out infinite;
+  animation: gsie-node-pulse 2.4s ease-in-out infinite;
 }
-.gsie__nodes circle:nth-child(2) { animation-delay: 0.4s; fill: var(--dusk); filter: drop-shadow(0 0 4px var(--dusk)); }
-.gsie__nodes circle:nth-child(3) { animation-delay: 0.8s; }
-.gsie__nodes circle:nth-child(4) { animation-delay: 1.2s; fill: var(--dusk); filter: drop-shadow(0 0 4px var(--dusk)); }
-.gsie__nodes circle:nth-child(5) { animation-delay: 1.6s; }
-.gsie__links line { stroke: rgba(0, 255, 180, 0.15); stroke-width: 1; stroke-dasharray: 4 3; animation: gsie-dash 3s linear infinite; }
-.gsie__links line:nth-child(even) { stroke: rgba(189, 95, 255, 0.12); animation-direction: reverse; }
+.gsie__links line { stroke: rgba(93, 184, 122, 0.18); stroke-width: 1; stroke-dasharray: 4 3; animation: gsie-link-pulse 3s linear infinite; }
+
+@keyframes gsie-contour-draw {
+  to { stroke-dashoffset: 0; }
+}
+@keyframes gsie-node-appear {
+  from { opacity: 0; r: 2; }
+  to   { opacity: 1; r: 6; }
+}
+@keyframes gsie-node-pulse {
+  0%, 100% { opacity: 0.9; transform: scale(1); }
+  50%       { opacity: 0.5; transform: scale(1.4); }
+}
+@keyframes gsie-link-pulse {
+  0%   { stroke-dashoffset: 0; }
+  100% { stroke-dashoffset: -40; }
+}
 
 /* -------------------- 13. Frises chronologiques -------------------- */
 .timeline {
@@ -1207,52 +1215,14 @@ body:has(button:hover) .cursor-ring {
 .reveal:nth-child(5) { transition-delay: 0.4s; }
 .reveal:nth-child(6) { transition-delay: 0.5s; }
 
-@keyframes aurora-fade {
-  from { opacity: 0; }
-  to   { opacity: 1; }
-}
-
-@keyframes aurora-drift-1 {
-  0%, 100% { transform: translate(0, 0) scale(1); }
-  33%       { transform: translate(8vw, 4vh) scale(1.1); }
-  66%       { transform: translate(-4vw, 8vh) scale(0.95); }
-}
-
-@keyframes aurora-drift-2 {
-  0%, 100% { transform: translate(0, 0) scale(1); }
-  40%       { transform: translate(-6vw, -5vh) scale(1.15); }
-  70%       { transform: translate(5vw, 3vh) scale(0.9); }
-}
-
-@keyframes aurora-drift-3 {
-  0%, 100% { transform: translate(0, 0) scale(1); }
-  50%       { transform: translate(4vw, -6vh) scale(1.2); }
-}
-
-@keyframes topo-draw {
-  from { stroke-dashoffset: 1000; opacity: 0.2; }
-  to   { stroke-dashoffset: 0;    opacity: 0.8; }
-}
-
-@keyframes node-pulse {
-  0%  { opacity: 0; transform: scale(0); }
-  60% { opacity: 1; transform: scale(1.4); }
-  100%{ opacity: 0.7; transform: scale(1); }
-}
-
 @keyframes ring-expand {
-  0%   { width: 148px; height: 148px; opacity: 0.5; }
+  0%   { width: 148px; height: 148px; opacity: 0.4; }
   100% { width: 260px; height: 260px; opacity: 0; }
 }
 
-@keyframes photo-glow {
-  from { box-shadow: 0 0 30px var(--canopy-glow), 0 0 60px var(--dusk-glow), 0 20px 60px -20px rgba(0,0,0,0.6); }
-  to   { box-shadow: 0 0 50px var(--canopy-glow), 0 0 90px var(--dusk-glow), 0 20px 60px -20px rgba(0,0,0,0.6); }
-}
-
 @keyframes pulse-brand {
-  0%, 100% { box-shadow: 0 0 16px var(--canopy-glow), 0 0 32px var(--dusk-glow); }
-  50%       { box-shadow: 0 0 26px var(--canopy-glow), 0 0 50px var(--dusk-glow); }
+  0%, 100% { box-shadow: 0 0 12px var(--canopy-glow); }
+  50%       { box-shadow: 0 0 22px var(--canopy-glow); }
 }
 
 @keyframes blink {
@@ -1270,15 +1240,7 @@ body:has(button:hover) .cursor-ring {
   80%       { transform: translateX(-50%) translateY(14px); opacity: 0; }
 }
 
-@keyframes gsie-pulse {
-  0%, 100% { r: 5; opacity: 0.8; }
-  50%       { r: 7; opacity: 1; }
-}
-
-@keyframes gsie-dash {
-  from { stroke-dashoffset: 0; }
-  to   { stroke-dashoffset: -14; }
-}
+/* gsie-pulse et gsie-dash remplacés par gsie-node-pulse et gsie-link-pulse (définis dans section GSIE) */
 
 /* -------------------- 17. Repos header & skeletons -------------------- */
 .repos {

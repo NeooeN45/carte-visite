@@ -159,39 +159,13 @@
 
     <!-- ===================== HERO ===================== -->
     <section class="hero" id="hero" aria-labelledby="hero-title">
-      <!-- Vidéo de fond en boucle — dépose ton fichier dans assets/video/hero.mp4 pour l'activer -->
-      <!-- <video class="hero__video" autoplay muted loop playsinline poster="/carte-visite/assets/img/og-image.png" aria-hidden="true">
+      <!-- Vidéo de fond en boucle -->
+      <video class="hero__video" autoplay muted loop playsinline aria-hidden="true">
         <source src="/carte-visite/assets/video/hero.mp4" type="video/mp4">
-        <source src="/carte-visite/assets/video/hero.webm" type="video/webm">
-      </video> -->
+      </video>
 
-      <!-- Canvas particules interactives -->
-      <canvas id="hero-canvas" aria-hidden="true"></canvas>
-
-      <!-- Aurora CSS animée -->
-      <div class="hero__aurora" aria-hidden="true">
-        <div class="aurora-3"></div>
-      </div>
-
-      <!-- Lignes topographiques -->
-      <div class="hero__backdrop" aria-hidden="true">
-        <svg class="hero__topo" viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid slice">
-          <g class="hero__topo-lines" fill="none" stroke-width="1">
-            <path d="M-50 620 C 150 560, 300 680, 500 600 S 900 520, 1250 640" />
-            <path d="M-50 680 C 200 630, 380 720, 560 660 S 950 590, 1250 700" />
-            <path d="M-50 540 C 180 500, 340 600, 540 520 S 880 460, 1250 560" />
-            <path d="M-50 460 C 220 420, 360 500, 580 440 S 900 400, 1250 480" />
-            <path d="M-50 380 C 260 350, 400 420, 620 370 S 940 330, 1250 400" />
-          </g>
-          <g class="hero__topo-nodes">
-            <circle cx="210" cy="565" r="3.5"/>
-            <circle cx="640" cy="480" r="3.5"/>
-            <circle cx="980" cy="560" r="3.5"/>
-            <circle cx="420" cy="375" r="3.5"/>
-            <circle cx="820" cy="410" r="3.5"/>
-          </g>
-        </svg>
-      </div>
+      <!-- Overlay glassmorphism + légère brume sombre -->
+      <div class="hero__glass" aria-hidden="true"></div>
 
       <div class="container hero__inner">
         <div class="hero__photo-wrap reveal">

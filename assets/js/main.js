@@ -121,12 +121,14 @@
     items.forEach(function (el) { observer.observe(el); });
   }
 
-  /* ============ 6. Canvas particules interactives ============ */
+  /* ============ 6. Canvas particules — désactivé (remplacé par vidéo de fond) ============ */
   function initParticles() {
+    /* Le canvas est masqué via CSS (display:none) ; cette fonction ne fait rien */
+    return;
+    /* Code conservé ci-dessous pour référence — non exécuté */
     var canvas = document.getElementById('hero-canvas');
     if (!canvas) return;
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) { canvas.style.display = 'none'; return; }
-    /* Sur mobile/touch : canvas trop gourmand en GPU — on le désactive */
     var isTouchDevice = window.matchMedia('(hover: none), (pointer: coarse)').matches;
     if (isTouchDevice) { canvas.style.display = 'none'; return; }
 
@@ -329,10 +331,11 @@
     });
   }
 
-  /* ============ 8. Effet parallaxe hero ============ */
+  /* ============ 8. Effet parallaxe hero — désactivé (backdrop/aurora supprimés) ============ */
   function initParallax() {
+    /* backdrop et aurora ont été remplacés par la vidéo ; pas de parallaxe */
+    return;
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-    /* Parallaxe désactivé sur touch — scroll janky sur mobile */
     if (window.matchMedia('(hover: none), (pointer: coarse)').matches) return;
     var backdrop = document.querySelector('.hero__backdrop');
     var aurora = document.querySelector('.hero__aurora');
